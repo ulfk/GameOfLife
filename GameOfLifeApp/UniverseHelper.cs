@@ -9,10 +9,13 @@ namespace GameOfLifeApp
 {
     public static class UniverseHelper
     {
+        private const string DataDir = "data";
+
         public static IList<string> GetListOfUniverses()
         {
-            var files = Directory.GetFiles(Directory.GetCurrentDirectory(), BuildFilename("*")).ToList();
-            files.AddRange(Directory.GetFiles(Directory.GetCurrentDirectory(), BuildFilename("*", true)));
+            var dataDir = Path.Combine(Directory.GetCurrentDirectory(), DataDir);
+            var files = Directory.GetFiles(dataDir, BuildFilename("*")).ToList();
+            files.AddRange(Directory.GetFiles(dataDir, BuildFilename("*", true)));
             var values = files
                 .Select(Path.GetFileName)
                 .Where(f => f != null)
@@ -43,7 +46,7 @@ namespace GameOfLifeApp
             {
                 try
                 {
-                    var filename = BuildFilename(filenamePart, isRle);
+                    var filename = Path.Combine(DataDir, BuildFilename(filenamePart, isRle));
                     result = File.ReadAllLines(filename);
                     isRleFormat = isRle;
                     break;
