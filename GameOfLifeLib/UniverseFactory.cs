@@ -47,7 +47,7 @@ namespace GameOfLifeLib
             {
                 if (line.StartsWith("#")) continue;
                 if (line.StartsWith("x = "))
-                {
+                {   // we are only interested in the value of x (the line-length)
                     var match = Regex.Match(line, @"(?:x\s?=\s?)(\d+)(?:,\s?y\s?=\s?)(\d+)(?:,\s?rule\s?=\s?.+)");
                     if (match.Groups.Count != 3 
                         || !int.TryParse(match.Groups[1].Value, out lineLength))
@@ -64,27 +64,27 @@ namespace GameOfLifeLib
                     var num = 1;
                     var type = match.Value[^1..];
                     if (match.Value.Length > 1)
-                    {
+                    {   // get counter
                         num = int.Parse(match.Value[..^1]);
                     }
 
                     if (type == "$" || x >= lineLength)
-                    {
+                    {   // new line
                         x = 0;
                         y++;
                     }
 
                     if (type == "b")
-                    {
+                    {   // dead cell(s)
                         x += num;
                     }
                     else if (type == "!")
-                    {
+                    {   // end of transmission
                         endReached = true;
                         break;
                     }
                     else if (type == "o" || type != "$")
-                    {
+                    {   // living cell(s)
                         for (var idx = 0; idx < num; idx++, x++)
                         {
                             universe.Cells.Add((x, y));
