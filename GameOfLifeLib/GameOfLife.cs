@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace GameOfLifeLib
 {
@@ -93,21 +92,10 @@ namespace GameOfLifeLib
             var neighbors = 0;
             foreach (var (x, y) in SurroundingCells(checkX, checkY))
             {
-                if (universe.Contains(x, y))
-                    neighbors++;
+                if (universe.Contains(x, y)) neighbors++;
             }
 
             return neighbors;
         }
-
-        //private static int CountNeighbors(Universe universe, long checkX, long checkY)
-        //{
-            //return universe.Cells.Count(cell => 
-            //       InRange(cell.X, checkX) 
-            //    && InRange(cell.Y, checkY) 
-            //    && !(cell.X == checkX && cell.Y == checkY));
-        //}
-
-        //private static bool InRange(long check, long range) => check >= range - 1 && check <= range + 1;
     }
 }
