@@ -6,15 +6,20 @@ Hard to believe that I never implemented Coneways Game of Life before. But event
 
 ## How?
 
-After implementing a first algorithm I realized that only by getting the population itself distributed over the (infinite) space, the program got really slow. The problem was not, having too many living cells, but having some living cells very far away from each other. This caused performance problems, because my first aproach to solve the algorithm, was to first calculate the overall rectangle containing all living cells. Then I iteratited through every single cell of this rectangle. Why? Because any dead cell could come to live if it has three neighbors. But even with only a few cells moving apart from each other (gliders!), the rectangle got really big and the thus the program got really slow.
+After implementing a first algorithm I realized that only by getting the population itself distributed over the (infinite) space, the program got really slow. The problem was not, having too many living cells, but having some living cells very far away from each other. This caused performance problems, because my first aproach to solve the algorithm, was to first calculate the overall rectangle containing all living cells. Then I iteratited through every single cell of this rectangle. Why? Because any dead cell could come to live if it has three neighbors. But even with only a few cells moving apart from each other (gliders!), the rectangle got really big and thus the program got really slow.
 
 The improoved approach is now, to process the living cells in a first step (note: only the living cells are stored in a SortedSet, I don't store dead cells because... why??). As a part of this first processing step, I collect all dead neighbor cells of each living cell. Thus I get a list of all dead cells that have at least one neighbor. Dead cells without neighbors won't come to live anyway, thus we don't have to check them. Then after having processed the living cells, I process these collected currently dead cells to check if they come to live with the current setting of neighbors. 
 
-This second approach causes the algorithm runtime grow with the size of the popuplation and not with it's distribution in the available (infinite) space.
+This second approach causes the algorithm runtime grow only with the size of the popuplation and not with it's distribution in the available (infinite) space.
 
 ## Features of the UI
 
-The start configuration is loaded from a file. Files are recognized by naming convention so you can add new files as needed. One of the files can be selected as start population. The processing can be started and stopped and the frequency of generating a new generation can be adjusted. The displayed canvas can be dragged by the mouse to change the visible area.
+The start configuration is loaded from a file. Files are recognized by naming convention so you can add new files as needed. One of the files can be selected as start population. The processing can be started and stopped and the frequency of generating a new generation can be adjusted. The displayed canvas can be dragged by the mouse to change the visible area. The size of the displayed cells can be changed.
+
+As datafiles, the program supports:
+
+- plain text files: every nonspace character is interpreted as living cell
+- RLE files like described here: https://www.conwaylife.com/wiki/Run_Length_Encoded
 
 ## Screenshot
 
