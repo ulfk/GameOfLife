@@ -11,11 +11,15 @@ namespace GameOfLifeApp
     {
         public static IList<string> GetListOfUniverses()
         {
-            var values = Directory.GetFiles(Directory.GetCurrentDirectory(), BuildFilename("*"))
+            var files = Directory.GetFiles(Directory.GetCurrentDirectory(), BuildFilename("*")).ToList();
+            files.AddRange(Directory.GetFiles(Directory.GetCurrentDirectory(), BuildFilename("*", true)));
+            var values = files
                 .Select(Path.GetFileName)
                 .Where(f => f != null)
                 .Select(f => f[9..^4])
+                .OrderBy(f => f)
                 .ToList();
+
             if (!values.Any())
                 values.Add("NO FILES FOUND");
             return values;
@@ -23,24 +27,37 @@ namespace GameOfLifeApp
 
         public static Universe GetFromFile(string filenamePart)
         {
-            var lines = GetFileContent(filenamePart);
-            return UniverseFactory.GetFromString(lines);
+            var (lines,isRle) = GetFileContent(filenamePart);
+            return isRle ? UniverseFactory.GetFromRle(lines) : UniverseFactory.GetFromString(lines);
         }
 
-        private static string BuildFilename(string part) => $"Universe_{part}.txt";
+        private static string BuildFilename(string part, bool isRle = false) => $"Universe_{part}.{(isRle ? "rle" : "txt")}";
 
-        private static string[] GetFileContent(string filenamePart)
+        private static (string[] lines,bool isRle) GetFileContent(string filenamePart)
         {
-            var filename = BuildFilename(filenamePart);
-            try
+            string[] result = null;
+            var message = "";
+            var isRleFormat = false;
+
+            foreach (var isRle in new []{false, true})
             {
-                return File.ReadAllLines(filename);
+                try
+                {
+                    var filename = BuildFilename(filenamePart, isRle);
+                    result = File.ReadAllLines(filename);
+                    isRleFormat = isRle;
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    message = ex.Message;
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Failed to load data from file!\n\n{ex.Message}", "Error");
-                return new[] { "" };
-            }
+
+            if (result != null) return (result, isRleFormat);
+
+            MessageBox.Show($"Failed to load data from file!\n\n{message}", "Error");
+            return (new[] { "" }, isRleFormat);
         }
     }
 }

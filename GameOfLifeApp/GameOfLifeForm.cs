@@ -63,15 +63,16 @@ namespace GameOfLifeApp
                 graphics.FillRectangles(new SolidBrush(Color.Black), rectangles);
         }
 
+        private int _pixelWidth = 6;
+
         private Rectangle CellToRectangle((long x, long y) cell)
         {
-            const int width = 6;
             const int space = 1;
             return new Rectangle(
-                (int)cell.x * (width + space) + _offsetX,
-                (int)cell.y * (width + space) + _offsetY,
-                width,
-                width);
+                (int)cell.x * (_pixelWidth + space) + _offsetX,
+                (int)cell.y * (_pixelWidth + space) + _offsetY,
+                _pixelWidth,
+                _pixelWidth);
         }
 
         private void ExecActionAndRedraw(Action action)
@@ -150,6 +151,11 @@ namespace GameOfLifeApp
                 _offsetX = _offsetStartX + (e.X - _mouseStartX);
                 _offsetY = _offsetStartY + (e.Y - _mouseStartY);
             });
+        }
+
+        private void NumPixelSize_ValueChanged(object sender, EventArgs e)
+        {
+            ExecActionAndRedraw(() => _pixelWidth = (int) numPixelSize.Value);
         }
     }
 }
