@@ -82,6 +82,11 @@ namespace GameOfLifeApp
             0,
             0,
             0});
+            this.inpFrequency.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             this.inpFrequency.Name = "inpFrequency";
             this.inpFrequency.Size = new System.Drawing.Size(73, 23);
             this.inpFrequency.TabIndex = 3;

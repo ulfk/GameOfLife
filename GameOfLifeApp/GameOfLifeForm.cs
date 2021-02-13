@@ -104,7 +104,14 @@ namespace GameOfLifeApp
         
         private void InpFrequency_ValueChanged(object sender, EventArgs e)
         {
-            _timer.Interval = (int)inpFrequency.Value;
+            if (inpFrequency.Value >= 10)
+            {
+                _timer.Interval = (int)inpFrequency.Value;
+            }
+            else
+            {
+                inpFrequency.Value = _timer.Interval;
+            }
         }
 
         private void PictureBox_Paint(object sender, PaintEventArgs e)
