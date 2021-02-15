@@ -1,5 +1,4 @@
-﻿
-using System.IO;
+﻿using System.IO;
 using System.Text.RegularExpressions;
 
 namespace GameOfLifeLib
@@ -45,11 +44,15 @@ namespace GameOfLifeLib
             var lineLength = 0;
             foreach (var line in lines)
             {
-                if (line.StartsWith("#")) continue;
-                if (line.StartsWith("x = "))
-                {   // we are only interested in the value of x (the line-length)
-                    var match = Regex.Match(line, @"(?:x\s?=\s?)(\d+)(?:,\s?y\s?=\s?)(\d+)(?:,\s?rule\s?=\s?.+)");
-                    if (match.Groups.Count != 3 
+                // ignore comments
+                if (line.StartsWith("#")) 
+                    continue;
+
+                // 'header'-line containing x/y-dimensions and rule for Game of Life
+                if (Regex.IsMatch(line, @"(?:x\s?=\s?).+"))
+                {   // currently we are only interested in the value of x (the line-length)
+                    var match = Regex.Match(line, @"(?:x\s?=\s?)(\d+)(?:,\s?y\s?=\s?)(\d+)(?:,\s?rule\s?=\s?\w)(\d+)(?:\/\w)(\d+)");
+                    if (match.Groups.Count != 5 
                         || !int.TryParse(match.Groups[1].Value, out lineLength))
                     {
                         throw new InvalidDataException($"Failed to extract x and y values form this line: '{line}'");
@@ -58,7 +61,7 @@ namespace GameOfLifeLib
                     continue;
                 }
 
-                var matches = Regex.Matches(line, @"(\d*[bo\$])");
+                var matches = Regex.Matches(line, @"(\d*[bo!\$])");
                 foreach (Match match in matches)
                 {
                     var num = 1;

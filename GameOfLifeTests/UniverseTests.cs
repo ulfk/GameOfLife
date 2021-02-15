@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using FluentAssertions;
 using GameOfLifeLib;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -99,14 +100,27 @@ namespace GameOfLifeTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(InvalidDataException))]
+        public void Universe_GetFromRleWithInvalidValue_Throws()
+        {
+            var _ = UniverseFactory.GetFromRle(new[]
+            {
+                "#C Hello World",
+                "#N Name",
+                "x = a, y = 17, rule = S3/B23",
+                @"o3b2o$2o3bo!"
+            });
+        }
+
+        [TestMethod]
         public void Universe_GetFromRle_Succeeds()
         {
             var universe = UniverseFactory.GetFromRle(new []
             {
                 "#C Hello World", 
                 "#N Name",
-                "x = 12, y = 17, rule = abc", 
-                @"o3b2o$2o3bo"
+                "x = 12, y = 17, rule = S3/B23", 
+                @"o3b2o$2o3bo!"
             });
             universe.Cells.Count.Should().Be(6);
             universe.Contains(0, 0).Should().BeTrue();
@@ -138,6 +152,8 @@ ob2obo2bob2o$4b2obob2obo4b3o2b2obobo$b2o2bob4obobo2bo2b4obo3bobo$2o2b
 5obo2bobo3b2o3bobo2b2o$2bob2o3bob6obo2bo3bo4bo!";
 
             var universe = UniverseFactory.GetFromRle(data);
+            universe.Cells.Count.Should().Be(496);
+            universe.IsCellAlive(1, 0).Should().BeTrue();
         }
 
         [TestMethod]

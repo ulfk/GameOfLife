@@ -5,7 +5,7 @@ namespace GameOfLifeLib
 {
     public class Universe
     {
-        public SortedSet<(long X, long Y)> Cells { get; }
+        public SortedSet<(long X, long Y)> Cells { get; private set; }
 
         public bool IsCellAlive(long x, long y) => Contains(x, y);
 
@@ -13,9 +13,34 @@ namespace GameOfLifeLib
 
         public bool IsEmpty => !Cells.Any();
 
+        public bool CellComesAlive(int neighbors) => NeighborsToComeAlive.Contains(neighbors);
+
+        public bool CellStaysAlive(int neighbors) => NeighborsToStayAlive.Contains(neighbors);
+
+        public int[] NeighborsToComeAlive { get; private set; }
+
+        public int[] NeighborsToStayAlive { get; private set; }
+
         public Universe()
         {
+            Init();
+        }
+
+        public Universe(int[] neighborsToComeAlive, int[] neighborsToStayAlive)
+        {
+            Init(neighborsToComeAlive, neighborsToStayAlive);
+        }
+
+        public Universe(Universe universe)
+        {
+            Init(universe.NeighborsToComeAlive, universe.NeighborsToStayAlive);
+        }
+
+        private void Init(int[] neighborsToComeAlive = null, int[] neighborsToStayAlive = null)
+        {
             Cells = new SortedSet<(long X, long Y)>();
+            NeighborsToComeAlive = neighborsToComeAlive ?? new[] {3};
+            NeighborsToStayAlive = neighborsToStayAlive ?? new[] {2, 3};
         }
     }
 }

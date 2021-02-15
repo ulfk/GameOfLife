@@ -38,7 +38,7 @@ namespace GameOfLifeLib
         {
             if (universe.IsEmpty) return universe;
 
-            var nextGen = new Universe();
+            var nextGen = new Universe(universe);
             var empties = new Universe();
 
             // process every living cell
@@ -60,7 +60,7 @@ namespace GameOfLifeLib
         private static void CalculateNewCellState(Universe universe, (long X, long Y) cell, bool isAlive, Universe nextGen)
         {
             var neighborsCount = CountNeighbors(universe, cell.X, cell.Y);
-            if (CellWillLive(isAlive, neighborsCount))
+            if (CellWillLive(universe, isAlive, neighborsCount))
                 nextGen.Cells.Add(cell);
         }
 
@@ -80,11 +80,11 @@ namespace GameOfLifeLib
             }
         }
 
-        private static bool CellWillLive(bool isAlive, int neighbors)
+        private static bool CellWillLive(Universe universe, bool isAlive, int neighbors)
         {
-            if (isAlive) 
-                return (neighbors >= 2 && neighbors <= 3);
-            return neighbors == 3;
+            return isAlive 
+                ? universe.CellStaysAlive(neighbors) 
+                : universe.CellComesAlive(neighbors);
         }
 
         private static int CountNeighbors(Universe universe, long checkX, long checkY)
