@@ -37,6 +37,8 @@ namespace GameOfLifeApp
             this.label2 = new System.Windows.Forms.Label();
             this.numPixelSize = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lblLivingCells = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.inpFrequency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numPixelSize)).BeginInit();
@@ -158,11 +160,32 @@ namespace GameOfLifeApp
             this.label3.TabIndex = 8;
             this.label3.Text = "Size:";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(682, 25);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(73, 15);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Living Cells: ";
+            // 
+            // lblLivingCells
+            // 
+            this.lblLivingCells.AutoSize = true;
+            this.lblLivingCells.Location = new System.Drawing.Point(773, 25);
+            this.lblLivingCells.Name = "lblLivingCells";
+            this.lblLivingCells.Size = new System.Drawing.Size(13, 15);
+            this.lblLivingCells.TabIndex = 10;
+            this.lblLivingCells.Text = "0";
+            this.lblLivingCells.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // GameOfLifeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(951, 578);
+            this.Controls.Add(this.lblLivingCells);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.numPixelSize);
             this.Controls.Add(this.label2);
@@ -192,6 +215,8 @@ namespace GameOfLifeApp
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown numPixelSize;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblLivingCells;
     }
 }
 

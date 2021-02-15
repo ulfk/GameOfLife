@@ -40,6 +40,7 @@ namespace GameOfLifeApp
             _universe = UniverseHelper.GetFromFile(selectedUniverse);
             _offsetX = 100;
             _offsetY = 100;
+            UpdateLivingCells();
         }
 
         private void TickHandler(object sender, EventArgs e)
@@ -50,8 +51,14 @@ namespace GameOfLifeApp
         private void CalculateNextGeneration()
         {
             _universe = GameOfLife.CalculateStep(_universe);
-            if(_universe.IsEmpty)
+            UpdateLivingCells();
+            if (_universe.IsEmpty)
                 ToggleTimer();
+        }
+
+        private void UpdateLivingCells()
+        {
+            lblLivingCells.Text = _universe.LivingCellsCount.ToString();
         }
 
         private void DrawUniverse(Graphics graphics)

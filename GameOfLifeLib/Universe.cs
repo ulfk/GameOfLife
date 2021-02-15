@@ -13,6 +13,8 @@ namespace GameOfLifeLib
 
         public bool IsEmpty => !Cells.Any();
 
+        public int LivingCellsCount => Cells.Count;
+
         public bool CellComesAlive(int neighbors) => NeighborsToComeAlive.Contains(neighbors);
 
         public bool CellStaysAlive(int neighbors) => NeighborsToStayAlive.Contains(neighbors);
