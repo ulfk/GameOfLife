@@ -86,7 +86,7 @@ namespace GameOfLifeLib
                         endReached = true;
                         break;
                     }
-                    else if (type == "o" || type != "$")
+                    else if (type == "o")
                     {   // living cell(s)
                         for (var idx = 0; idx < num; idx++, x++)
                         {
