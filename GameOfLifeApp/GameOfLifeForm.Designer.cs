@@ -39,6 +39,8 @@ namespace GameOfLifeApp
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.lblLivingCells = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lblGenerations = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.inpFrequency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numPixelSize)).BeginInit();
@@ -49,7 +51,7 @@ namespace GameOfLifeApp
             this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox.BackColor = System.Drawing.Color.White;
+            this.pictureBox.BackColor = System.Drawing.Color.WhiteSmoke;
             this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox.Location = new System.Drawing.Point(12, 59);
             this.pictureBox.Name = "pictureBox";
@@ -163,27 +165,48 @@ namespace GameOfLifeApp
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(682, 25);
+            this.label4.Location = new System.Drawing.Point(789, 28);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(73, 15);
+            this.label4.Size = new System.Drawing.Size(71, 15);
             this.label4.TabIndex = 9;
-            this.label4.Text = "Living Cells: ";
+            this.label4.Text = "Population: ";
             // 
             // lblLivingCells
             // 
             this.lblLivingCells.AutoSize = true;
-            this.lblLivingCells.Location = new System.Drawing.Point(773, 25);
+            this.lblLivingCells.Location = new System.Drawing.Point(886, 28);
             this.lblLivingCells.Name = "lblLivingCells";
             this.lblLivingCells.Size = new System.Drawing.Size(13, 15);
             this.lblLivingCells.TabIndex = 10;
             this.lblLivingCells.Text = "0";
             this.lblLivingCells.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(628, 28);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(73, 15);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "Generations:";
+            // 
+            // lblGenerations
+            // 
+            this.lblGenerations.AutoSize = true;
+            this.lblGenerations.Location = new System.Drawing.Point(720, 28);
+            this.lblGenerations.Name = "lblGenerations";
+            this.lblGenerations.Size = new System.Drawing.Size(13, 15);
+            this.lblGenerations.TabIndex = 12;
+            this.lblGenerations.Text = "0";
+            this.lblGenerations.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // GameOfLifeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(951, 578);
+            this.Controls.Add(this.lblGenerations);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.lblLivingCells);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -217,6 +240,8 @@ namespace GameOfLifeApp
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblLivingCells;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblGenerations;
     }
 }
 

@@ -12,6 +12,7 @@ namespace GameOfLifeApp
         private Universe _universe;
         private int _offsetX;
         private int _offsetY;
+        private int _generations;
 
         public GameOfLifeForm()
         {
@@ -40,7 +41,8 @@ namespace GameOfLifeApp
             _universe = UniverseHelper.GetFromFile(selectedUniverse);
             _offsetX = 100;
             _offsetY = 100;
-            UpdateLivingCells();
+            _generations = 0;
+            UpdateCounters();
         }
 
         private void TickHandler(object sender, EventArgs e)
@@ -51,20 +53,22 @@ namespace GameOfLifeApp
         private void CalculateNextGeneration()
         {
             _universe = GameOfLife.CalculateStep(_universe);
-            UpdateLivingCells();
+            _generations++;
+            UpdateCounters();
             if (_universe.IsEmpty)
                 ToggleTimer();
         }
 
-        private void UpdateLivingCells()
+        private void UpdateCounters()
         {
             lblLivingCells.Text = _universe.LivingCellsCount.ToString();
+            lblGenerations.Text = _generations.ToString();
         }
 
         private void DrawUniverse(Graphics graphics)
         {
             var rectangles = _universe.Cells.Select(CellToRectangle).ToArray();
-            graphics.Clear(Color.White);
+            graphics.Clear(Color.WhiteSmoke);
             if(rectangles.Any())
                 graphics.FillRectangles(new SolidBrush(Color.Black), rectangles);
         }
