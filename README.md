@@ -14,12 +14,23 @@ This second approach causes the algorithm runtime to grow only with the size of 
 
 ## Features of the UI
 
-The start configuration is generated randomized or can be loaded from a file. Available files are recognized by naming convention so you can add new files as needed. One of the files can be selected as start population. The processing can be started and stopped and the frequency of generating a new generation can be adjusted. The displayed canvas can be dragged by the mouse to change the visible area. The size of the displayed cells can be changed.
+The UI has the following features (hint: 'universe' is the configuration of cells):
 
-As datafiles, the program supports:
+- generate random universe
+- load universe form file (TXT or RLE, see below)
+- new universes are displayed centered after loading
+- start/stop calculation
+- change speed of generations
+- change display-size of cells
+- move the displyed universe by dragging it with your mouse
+- change cells by holding SHIFT and right-click with your mouse
 
-- plain text files: every non-space character is interpreted as living cell
+The program supports these data files:
+
 - RLE files like described here: https://www.conwaylife.com/wiki/Run_Length_Encoded 
+- plain text files: every non-space character is interpreted as living cell
+
+There are predefined files or you can open any other file.
 
 ## Screenshot
 
@@ -27,11 +38,10 @@ As datafiles, the program supports:
 
 ## ToDo
 
-- center universe after loading from file
-- add posibility to set cells manually by mouse-click
 - add functionality to save universe to file
 
 ## Bookmarks
 
 - https://de.wikipedia.org/wiki/Conways_Spiel_des_Lebens
+- RLE files like described here: https://www.conwaylife.com/wiki/Run_Length_Encoded 
 

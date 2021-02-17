@@ -69,7 +69,7 @@ namespace GameOfLifeTests
         public void Universe_IsCellAlive_Succeeds(int x, int y, bool result)
         {
             var universe = new Universe();
-            universe.Cells.Add((42, 1337));
+            universe.Add(42, 1337);
 
             universe.IsCellAlive(x, y).Should().Be(result);
         }
@@ -84,7 +84,7 @@ namespace GameOfLifeTests
         public void Universe_Contains_Succeeds(int x, int y, bool result)
         {
             var universe = new Universe();
-            universe.Cells.Add((42, 1337));
+            universe.Add(42, 1337);
 
             universe.Contains(x, y).Should().Be(result);
         }
@@ -95,7 +95,7 @@ namespace GameOfLifeTests
             var universe = new Universe();
             universe.IsEmpty.Should().BeTrue();
 
-            universe.Cells.Add((42, 1337));
+            universe.Add(42, 1337);
             universe.IsEmpty.Should().BeFalse();
         }
 

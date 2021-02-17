@@ -28,15 +28,15 @@ namespace GameOfLifeApp
             return values;
         }
 
-        public static Universe GetFromFile(string filenamePart)
+        public static Universe GetFromFile(string filenamePart, bool isFullFilename = false)
         {
-            var (lines,isRle) = GetFileContent(filenamePart);
+            var (lines,isRle) = GetFileContent(filenamePart, isFullFilename);
             return isRle ? UniverseFactory.GetFromRle(lines) : UniverseFactory.GetFromString(lines);
         }
 
         private static string BuildFilename(string part, bool isRle = false) => $"Universe_{part}.{(isRle ? "rle" : "txt")}";
 
-        private static (string[] lines,bool isRle) GetFileContent(string filenamePart)
+        private static (string[] lines,bool isRle) GetFileContent(string filenamePart, bool isFullFilename = false)
         {
             string[] result = null;
             var message = "";
@@ -46,9 +46,9 @@ namespace GameOfLifeApp
             {
                 try
                 {
-                    var filename = Path.Combine(DataDir, BuildFilename(filenamePart, isRle));
+                    var filename = isFullFilename ? filenamePart : Path.Combine(DataDir, BuildFilename(filenamePart, isRle));
                     result = File.ReadAllLines(filename);
-                    isRleFormat = isRle;
+                    isRleFormat = isFullFilename ? filenamePart.EndsWith(".rle") : isRle;
                     break;
                 }
                 catch (Exception ex)

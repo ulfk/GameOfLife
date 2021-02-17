@@ -55,10 +55,11 @@ namespace GameOfLifeApp
             this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox.Location = new System.Drawing.Point(12, 59);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(927, 507);
+            this.pictureBox.Size = new System.Drawing.Size(943, 561);
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
             this.pictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.PictureBox_Paint);
+            this.pictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PictureBox_MouseClick);
             this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
             this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
             this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
@@ -165,7 +166,7 @@ namespace GameOfLifeApp
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(789, 28);
+            this.label4.Location = new System.Drawing.Point(630, 32);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(71, 15);
             this.label4.TabIndex = 9;
@@ -173,10 +174,9 @@ namespace GameOfLifeApp
             // 
             // lblLivingCells
             // 
-            this.lblLivingCells.AutoSize = true;
-            this.lblLivingCells.Location = new System.Drawing.Point(886, 28);
+            this.lblLivingCells.Location = new System.Drawing.Point(709, 32);
             this.lblLivingCells.Name = "lblLivingCells";
-            this.lblLivingCells.Size = new System.Drawing.Size(13, 15);
+            this.lblLivingCells.Size = new System.Drawing.Size(45, 15);
             this.lblLivingCells.TabIndex = 10;
             this.lblLivingCells.Text = "0";
             this.lblLivingCells.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -184,7 +184,7 @@ namespace GameOfLifeApp
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(628, 28);
+            this.label5.Location = new System.Drawing.Point(630, 17);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(73, 15);
             this.label5.TabIndex = 11;
@@ -192,10 +192,9 @@ namespace GameOfLifeApp
             // 
             // lblGenerations
             // 
-            this.lblGenerations.AutoSize = true;
-            this.lblGenerations.Location = new System.Drawing.Point(720, 28);
+            this.lblGenerations.Location = new System.Drawing.Point(709, 17);
             this.lblGenerations.Name = "lblGenerations";
-            this.lblGenerations.Size = new System.Drawing.Size(13, 15);
+            this.lblGenerations.Size = new System.Drawing.Size(45, 15);
             this.lblGenerations.TabIndex = 12;
             this.lblGenerations.Text = "0";
             this.lblGenerations.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -204,7 +203,7 @@ namespace GameOfLifeApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(951, 578);
+            this.ClientSize = new System.Drawing.Size(967, 632);
             this.Controls.Add(this.lblGenerations);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.lblLivingCells);
@@ -217,9 +216,12 @@ namespace GameOfLifeApp
             this.Controls.Add(this.inpFrequency);
             this.Controls.Add(this.btnStartStop);
             this.Controls.Add(this.pictureBox);
-            this.MinimumSize = new System.Drawing.Size(584, 301);
+            this.KeyPreview = true;
+            this.MinimumSize = new System.Drawing.Size(777, 406);
             this.Name = "GameOfLifeForm";
             this.Text = "Game of Life";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GameOfLifeForm_KeyUpDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GameOfLifeForm_KeyUpDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.inpFrequency)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numPixelSize)).EndInit();

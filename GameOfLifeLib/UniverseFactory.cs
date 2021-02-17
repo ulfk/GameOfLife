@@ -21,7 +21,7 @@ namespace GameOfLifeLib
                 for (var x = 0; x < line.Length; x++)
                 {
                     if (line[x] != ' ')
-                        universe.Cells.Add((x, y));
+                        universe.Add(x, y);
                 }
             }
 
@@ -91,7 +91,7 @@ namespace GameOfLifeLib
                     {   // living cell(s)
                         for (var idx = 0; idx < num; idx++, x++)
                         {
-                            universe.Cells.Add((x, y));
+                            universe.Add(x, y);
                         }
                     }
                 }
@@ -111,7 +111,7 @@ namespace GameOfLifeLib
             {
                 for (var y = 0; y < height; y++)
                 {
-                    if (rand.Next(100) <= percentFilled) universe.Cells.Add((x, y));
+                    if (rand.Next(100) <= percentFilled) universe.Add(x, y);
                 }
             }
 

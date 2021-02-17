@@ -31,7 +31,7 @@ namespace GameOfLifeLib
         {
             var neighborsCount = CountNeighbors(universe, cell.X, cell.Y);
             if (CellWillLive(universe, isAlive, neighborsCount))
-                nextGen.Cells.Add(cell);
+                nextGen.Add(cell);
         }
 
         private static IEnumerable<(int X, int Y)> SurroundingCells(int cellX, int cellY) => new[]
@@ -46,7 +46,7 @@ namespace GameOfLifeLib
             foreach (var (x, y) in SurroundingCells(cellX, cellY))
             {
                 if(!universe.IsCellAlive(x, y) && !empties.Contains(x, y))
-                    empties.Cells.Add((x, y));
+                    empties.Add(x, y);
             }
         }
 

@@ -47,7 +47,21 @@ namespace GameOfLifeLib
 
         public (int minX, int maxX, int minY, int maxY) GetDimensions()
         {
-            return (Cells.Min(c => c.X), Cells.Max(c => c.X), Cells.Min(c => c.Y), Cells.Max(c => c.Y));
+            return IsEmpty ? (0, 0, 0, 0) : (Cells.Min(c => c.X), Cells.Max(c => c.X), Cells.Min(c => c.Y), Cells.Max(c => c.Y));
         }
+
+        public void ToggleCell(int x, int y)
+        {
+            if (IsCellAlive(x, y))
+                Remove(x, y);
+            else
+                Add(x, y);
+        }
+
+        public void Add(int x, int y) => Cells.Add((x, y));
+
+        public void Add((int, int) cell) => Cells.Add(cell);
+
+        public void Remove(int x, int y) => Cells.Remove((x, y));
     }
 }

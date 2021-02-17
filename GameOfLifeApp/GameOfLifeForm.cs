@@ -16,22 +16,23 @@ namespace GameOfLifeApp
         private int _generations;
         private int _pixelsPerCell = 6;
         private const string RandomUniverse = "** Random **";
+        private const string EmptyUniverse = "** Empty **";
+        private const string OpenFile = "** Open File... **";
         private const int CellSpacing = 1;
         
         public GameOfLifeForm()
         {
             InitializeComponent();
             InitUniverseSelection();
-            //LoadUniverse();
             CreateTimer();
         }
 
         private void InitUniverseSelection()
         {
-            var values = new List<string> { RandomUniverse };
+            var values = new List<string> { EmptyUniverse, RandomUniverse, OpenFile };
             values.AddRange(UniverseHelper.GetListOfUniverses());
             selectStartUniverse.DataSource = values;
-            selectStartUniverse.SelectedItem = values[0];
+            selectStartUniverse.SelectedItem = values[1];
         }
 
         private void CreateTimer()
@@ -43,16 +44,32 @@ namespace GameOfLifeApp
         private void LoadUniverse()
         {
             var selectedUniverse = selectStartUniverse.SelectedItem.ToString();
-            _universe = (selectedUniverse == RandomUniverse) 
-                ? UniverseFactory.GetRandom() 
-                : UniverseHelper.GetFromFile(selectedUniverse);
+            _universe = selectedUniverse switch
+            {
+                EmptyUniverse => new Universe(),
+                RandomUniverse => UniverseFactory.GetRandom(),
+                OpenFile => LoadUniverseFromUserSelectedFile(),
+                _ => UniverseHelper.GetFromFile(selectedUniverse)
+            };
             CenterUniverse();
             _generations = 0;
             UpdateCounters();
         }
 
+        private Universe LoadUniverseFromUserSelectedFile()
+        {
+            using var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = @"txt files (*.txt)|*.txt|RLE files (*.rle)|*.rle|All files (*.*)|*.*";
+            openFileDialog.RestoreDirectory = true;
+            return openFileDialog.ShowDialog() == DialogResult.OK 
+                ? UniverseHelper.GetFromFile(openFileDialog.FileName, true) 
+                : _universe;
+        }
+
+        private int RasterStepSize => _pixelsPerCell + CellSpacing;
+
         private int GetCenter(int overall, int min, int max)
-            => (overall - (max - min + 1) * (_pixelsPerCell + CellSpacing)) / 2 - min;
+            => (overall - (max - min + 1) * RasterStepSize) / 2 - min;
 
         private void CenterUniverse()
         {
@@ -92,8 +109,8 @@ namespace GameOfLifeApp
         private Rectangle CellToRectangle((int x, int y) cell)
         {
             return new Rectangle(
-                cell.x * (_pixelsPerCell + CellSpacing) + _offsetX,
-                cell.y * (_pixelsPerCell + CellSpacing) + _offsetY,
+                cell.x * RasterStepSize + _offsetX,
+                cell.y * RasterStepSize + _offsetY,
                 _pixelsPerCell,
                 _pixelsPerCell);
         }
@@ -190,6 +207,35 @@ namespace GameOfLifeApp
                 _pixelsPerCell = (int) numPixelSize.Value;
                 CenterUniverse();
             });
+        }
+
+        private void PictureBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (!_timer.Enabled && e.Button == MouseButtons.Left && _shiftPressed)
+            {
+                ExecActionAndRedraw(() =>
+                {
+                    var cellX = GetUniverseCoordinate(e.X, _offsetX);
+                    var cellY = GetUniverseCoordinate(e.Y, _offsetY);
+                    _universe.ToggleCell(cellX, cellY);
+                });
+            }
+        }
+
+        private int GetUniverseCoordinate(int mouseValue, int offsetValue)
+        {
+            var diff = mouseValue - offsetValue;
+            var sign = Math.Sign(diff);
+            var add = sign < 0 ? 1 : 0;
+            var absDiff = Math.Abs(diff) / RasterStepSize;
+            return (absDiff + add) * sign;
+        }
+
+        private bool _shiftPressed;
+
+        private void GameOfLifeForm_KeyUpDown(object sender, KeyEventArgs e)
+        {
+            _shiftPressed = e.Shift;
         }
     }
 }
