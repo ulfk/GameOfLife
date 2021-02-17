@@ -27,21 +27,21 @@ namespace GameOfLifeLib
             return nextGen;
         }
 
-        private static void CalculateNewCellState(Universe universe, (long X, long Y) cell, bool isAlive, Universe nextGen)
+        private static void CalculateNewCellState(Universe universe, (int X, int Y) cell, bool isAlive, Universe nextGen)
         {
             var neighborsCount = CountNeighbors(universe, cell.X, cell.Y);
             if (CellWillLive(universe, isAlive, neighborsCount))
                 nextGen.Cells.Add(cell);
         }
 
-        private static IEnumerable<(long X, long Y)> SurroundingCells(long cellX, long cellY) => new[]
+        private static IEnumerable<(int X, int Y)> SurroundingCells(int cellX, int cellY) => new[]
         {
             (cellX - 1, cellY - 1), (cellX, cellY - 1), (cellX + 1, cellY - 1),
             (cellX - 1, cellY),                         (cellX + 1, cellY),
             (cellX - 1, cellY + 1), (cellX, cellY + 1), (cellX + 1, cellY + 1)
         };
 
-        private static void CollectEmptyNeighbors(Universe universe, long cellX, long cellY, Universe empties)
+        private static void CollectEmptyNeighbors(Universe universe, int cellX, int cellY, Universe empties)
         {
             foreach (var (x, y) in SurroundingCells(cellX, cellY))
             {
@@ -57,7 +57,7 @@ namespace GameOfLifeLib
                 : universe.CellComesAlive(neighbors);
         }
 
-        private static int CountNeighbors(Universe universe, long checkX, long checkY)
+        private static int CountNeighbors(Universe universe, int checkX, int checkY)
         {
             var neighbors = 0;
             foreach (var (x, y) in SurroundingCells(checkX, checkY))

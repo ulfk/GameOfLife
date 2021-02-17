@@ -14,13 +14,15 @@ namespace GameOfLifeApp
         private int _offsetX;
         private int _offsetY;
         private int _generations;
+        private int _pixelsPerCell = 6;
         private const string RandomUniverse = "** Random **";
-
+        private const int CellSpacing = 1;
+        
         public GameOfLifeForm()
         {
             InitializeComponent();
             InitUniverseSelection();
-            LoadUniverse();
+            //LoadUniverse();
             CreateTimer();
         }
 
@@ -44,12 +46,19 @@ namespace GameOfLifeApp
             _universe = (selectedUniverse == RandomUniverse) 
                 ? UniverseFactory.GetRandom() 
                 : UniverseHelper.GetFromFile(selectedUniverse);
-            //TODO center universe    pictureBox.Size.Height;
-
-            _offsetX = 100;
-            _offsetY = 100;
+            CenterUniverse();
             _generations = 0;
             UpdateCounters();
+        }
+
+        private int GetCenter(int overall, int min, int max)
+            => (overall - (max - min + 1) * (_pixelsPerCell + CellSpacing)) / 2 - min;
+
+        private void CenterUniverse()
+        {
+            var (minX, maxX, minY, maxY) = _universe.GetDimensions();
+            _offsetX = GetCenter(pictureBox.Size.Width, minX, maxX);
+            _offsetY = GetCenter(pictureBox.Size.Height, minY, maxY);
         }
 
         private void TickHandler(object sender, EventArgs e)
@@ -80,16 +89,13 @@ namespace GameOfLifeApp
                 graphics.FillRectangles(new SolidBrush(Color.Black), rectangles);
         }
 
-        private int _pixelWidth = 6;
-
-        private Rectangle CellToRectangle((long x, long y) cell)
+        private Rectangle CellToRectangle((int x, int y) cell)
         {
-            const int space = 1;
             return new Rectangle(
-                (int)cell.x * (_pixelWidth + space) + _offsetX,
-                (int)cell.y * (_pixelWidth + space) + _offsetY,
-                _pixelWidth,
-                _pixelWidth);
+                cell.x * (_pixelsPerCell + CellSpacing) + _offsetX,
+                cell.y * (_pixelsPerCell + CellSpacing) + _offsetY,
+                _pixelsPerCell,
+                _pixelsPerCell);
         }
 
         private void ExecActionAndRedraw(Action action)
@@ -179,7 +185,11 @@ namespace GameOfLifeApp
 
         private void NumPixelSize_ValueChanged(object sender, EventArgs e)
         {
-            ExecActionAndRedraw(() => _pixelWidth = (int) numPixelSize.Value);
+            ExecActionAndRedraw(() =>
+            {
+                _pixelsPerCell = (int) numPixelSize.Value;
+                CenterUniverse();
+            });
         }
     }
 }

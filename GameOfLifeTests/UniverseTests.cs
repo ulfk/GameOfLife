@@ -66,7 +66,7 @@ namespace GameOfLifeTests
         [DataRow(41, 1336, false)]
         [DataRow(0, 0, false)]
         [DataRow(123, 321, false)]
-        public void Universe_IsCellAlive_Succeeds(long x, long y, bool result)
+        public void Universe_IsCellAlive_Succeeds(int x, int y, bool result)
         {
             var universe = new Universe();
             universe.Cells.Add((42, 1337));
@@ -81,7 +81,7 @@ namespace GameOfLifeTests
         [DataRow(41, 1336, false)]
         [DataRow(0, 0, false)]
         [DataRow(123, 321, false)]
-        public void Universe_Contains_Succeeds(long x, long y, bool result)
+        public void Universe_Contains_Succeeds(int x, int y, bool result)
         {
             var universe = new Universe();
             universe.Cells.Add((42, 1337));

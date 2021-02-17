@@ -5,11 +5,11 @@ namespace GameOfLifeLib
 {
     public class Universe
     {
-        public SortedSet<(long X, long Y)> Cells { get; private set; }
+        public SortedSet<(int X, int Y)> Cells { get; private set; }
 
-        public bool IsCellAlive(long x, long y) => Contains(x, y);
+        public bool IsCellAlive(int x, int y) => Contains(x, y);
 
-        public bool Contains(long x, long y) => Cells.Contains((x, y)); 
+        public bool Contains(int x, int y) => Cells.Contains((x, y)); 
 
         public bool IsEmpty => !Cells.Any();
 
@@ -40,12 +40,12 @@ namespace GameOfLifeLib
 
         private void Init(int[] neighborsToComeAlive = null, int[] neighborsToStayAlive = null)
         {
-            Cells = new SortedSet<(long X, long Y)>();
+            Cells = new SortedSet<(int X, int Y)>();
             NeighborsToComeAlive = neighborsToComeAlive ?? new[] {3};
             NeighborsToStayAlive = neighborsToStayAlive ?? new[] {2, 3};
         }
 
-        public (long minX, long maxX, long minY, long maxY) GetDimensions()
+        public (int minX, int maxX, int minY, int maxY) GetDimensions()
         {
             return (Cells.Min(c => c.X), Cells.Max(c => c.X), Cells.Min(c => c.Y), Cells.Max(c => c.Y));
         }

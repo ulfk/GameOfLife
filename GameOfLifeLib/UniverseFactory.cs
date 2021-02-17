@@ -107,9 +107,9 @@ namespace GameOfLifeLib
         {
             var universe = new Universe();
             var rand = new Random();
-            for (var x = 1; x <= width; x++)
+            for (var x = 0; x < width; x++)
             {
-                for (var y = 0; y <= height; y++)
+                for (var y = 0; y < height; y++)
                 {
                     if (rand.Next(100) <= percentFilled) universe.Cells.Add((x, y));
                 }
