@@ -23,13 +23,10 @@
     <None Update="data\Universe_GliderGunDouble.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="data\Universe_GliderGunRle.rle">
+    <None Update="data\Universe_GliderGun2.rle">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="data\Universe_Huge.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="data\Universe_Huge2.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="data\Universe_Loops43to54.rle">

@@ -39,6 +39,7 @@ There are predefined files or you can open any other file.
 ## ToDo
 
 - add functionality to save universe to file
+- for random generation: let user choose density and size
 
 ## Bookmarks
 
