@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text.RegularExpressions;
 
 namespace GameOfLifeLib
@@ -97,6 +98,21 @@ namespace GameOfLifeLib
 
                 if (endReached)
                     break;
+            }
+
+            return universe;
+        }
+
+        public static Universe GetRandom(int percentFilled = 40, int width = 25, int height = 25)
+        {
+            var universe = new Universe();
+            var rand = new Random();
+            for (var x = 1; x <= width; x++)
+            {
+                for (var y = 0; y <= height; y++)
+                {
+                    if (rand.Next(100) <= percentFilled) universe.Cells.Add((x, y));
+                }
             }
 
             return universe;

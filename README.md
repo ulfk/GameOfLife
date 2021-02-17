@@ -14,13 +14,24 @@ This second approach causes the algorithm runtime to grow only with the size of 
 
 ## Features of the UI
 
-The start configuration is loaded from a file. Available files are recognized by naming convention so you can add new files as needed. One of the files can be selected as start population. The processing can be started and stopped and the frequency of generating a new generation can be adjusted. The displayed canvas can be dragged by the mouse to change the visible area. The size of the displayed cells can be changed.
+The start configuration is generated randomized or can be loaded from a file. Available files are recognized by naming convention so you can add new files as needed. One of the files can be selected as start population. The processing can be started and stopped and the frequency of generating a new generation can be adjusted. The displayed canvas can be dragged by the mouse to change the visible area. The size of the displayed cells can be changed.
 
 As datafiles, the program supports:
 
 - plain text files: every non-space character is interpreted as living cell
-- RLE files like described here: https://www.conwaylife.com/wiki/Run_Length_Encoded
+- RLE files like described here: https://www.conwaylife.com/wiki/Run_Length_Encoded 
 
 ## Screenshot
 
 <img alt="Screnshot of Gam of Life UI" src="https://github.com/ulfk/game-of-life/blob/main/screenshot.png" width="350px"/>
+
+## ToDo
+
+- center universe after loading from file
+- add posibility to set cells manually by mouse-click
+- add functionality to save universe to file
+
+## Bookmarks
+
+- https://de.wikipedia.org/wiki/Conways_Spiel_des_Lebens
+

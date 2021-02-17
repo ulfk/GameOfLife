@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -13,6 +14,7 @@ namespace GameOfLifeApp
         private int _offsetX;
         private int _offsetY;
         private int _generations;
+        private const string RandomUniverse = "** Random **";
 
         public GameOfLifeForm()
         {
@@ -24,7 +26,8 @@ namespace GameOfLifeApp
 
         private void InitUniverseSelection()
         {
-            var values = UniverseHelper.GetListOfUniverses();
+            var values = new List<string> { RandomUniverse };
+            values.AddRange(UniverseHelper.GetListOfUniverses());
             selectStartUniverse.DataSource = values;
             selectStartUniverse.SelectedItem = values[0];
         }
@@ -38,7 +41,11 @@ namespace GameOfLifeApp
         private void LoadUniverse()
         {
             var selectedUniverse = selectStartUniverse.SelectedItem.ToString();
-            _universe = UniverseHelper.GetFromFile(selectedUniverse);
+            _universe = (selectedUniverse == RandomUniverse) 
+                ? UniverseFactory.GetRandom() 
+                : UniverseHelper.GetFromFile(selectedUniverse);
+            //TODO center universe    pictureBox.Size.Height;
+
             _offsetX = 100;
             _offsetY = 100;
             _generations = 0;

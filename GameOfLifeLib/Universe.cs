@@ -44,5 +44,10 @@ namespace GameOfLifeLib
             NeighborsToComeAlive = neighborsToComeAlive ?? new[] {3};
             NeighborsToStayAlive = neighborsToStayAlive ?? new[] {2, 3};
         }
+
+        public (long minX, long maxX, long minY, long maxY) GetDimensions()
+        {
+            return (Cells.Min(c => c.X), Cells.Max(c => c.X), Cells.Min(c => c.Y), Cells.Max(c => c.Y));
+        }
     }
 }

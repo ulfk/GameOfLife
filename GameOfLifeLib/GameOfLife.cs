@@ -4,36 +4,6 @@ namespace GameOfLifeLib
 {
     public static class GameOfLife
     {
-        // https://de.wikipedia.org/wiki/Conways_Spiel_des_Lebens
-
-        // bad solution if cells are widely spread over universe because then we iterate over lots of empty cells without eny benefit
-        /*
-        public static Universe CalculateStep(Universe universe)
-        {
-            var nextGen = new Universe();
-            if (!universe.Cells.Any()) return nextGen;
-
-
-            var minX = universe.MinX - 1;
-            var minY = universe.MinY - 1;
-            var maxX = universe.MaxX + 1;
-            var maxY = universe.MaxY + 1;
-
-            for (var x = minX; x <= maxX; x++)
-            {
-                for (var y = minY; y <= maxY; y++)
-                {
-                    var isAlive = universe.IsCellAlive(x, y);
-                    var neighbors = CountNeighbors(universe, x, y);
-                    if (CellWillLive(isAlive, neighbors))
-                        nextGen.Cells.Add((x, y));
-                }
-            }
-
-            return nextGen;
-        }
-        */
-
         public static Universe CalculateStep(Universe universe)
         {
             if (universe.IsEmpty) return universe;
