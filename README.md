@@ -18,12 +18,15 @@ The UI has the following features (hint: 'universe' is the configuration of cell
 
 - generate random universe
 - load universe form file (TXT or RLE, see below)
-- new universes are displayed centered after loading
-- start/stop calculation
+- save current universe state to file (TXT or RLE)
+- loaded univers is displayed centered
+- start/stop evolving of generations
+- reload previously loaded universe with single click
+- display current number of generations and number of living cells
 - change speed of generations
 - change display-size of cells
 - move the displyed universe by dragging it with your mouse
-- change cells by holding SHIFT and right-click with your mouse
+- change cells by holding SHIFT and left-click with your mouse
 
 The program supports these data files:
 
@@ -40,6 +43,7 @@ There are predefined files or you can open any other file.
 
 - if universe is in stable state stop the timer
 - add history for generations to be able to step back-/forward
+- replace start/save/reload button texts with icons
 
 ## Bookmarks
 
