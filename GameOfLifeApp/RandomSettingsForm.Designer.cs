@@ -83,11 +83,6 @@ namespace GameOfLifeApp
             // 
             // numSize
             // 
-            this.numSize.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
             this.numSize.Location = new System.Drawing.Point(70, 42);
             this.numSize.Maximum = new decimal(new int[] {
             250,
