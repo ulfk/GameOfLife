@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using GameOfLifeLib;
@@ -19,12 +20,25 @@ namespace GameOfLifeApp
         private const string EmptyUniverse = "** Empty **";
         private const string OpenFile = "** Open File... **";
         private const int CellSpacing = 1;
-        
+        private RandomSettingsForm _randomSettingsForm;
+        private OpenFileDialog _openFileDialog;
+
         public GameOfLifeForm()
         {
             InitializeComponent();
+            CreateDialogs();
             InitUniverseSelection();
             CreateTimer();
+        }
+
+        private void CreateDialogs()
+        {
+            _randomSettingsForm = new RandomSettingsForm();
+            _openFileDialog = new OpenFileDialog
+            {
+                Filter = @"txt files (*.txt)|*.txt|RLE files (*.rle)|*.rle|All files (*.*)|*.*",
+                RestoreDirectory = true
+            };
         }
 
         private void InitUniverseSelection()
@@ -32,7 +46,7 @@ namespace GameOfLifeApp
             var values = new List<string> { EmptyUniverse, RandomUniverse, OpenFile };
             values.AddRange(UniverseHelper.GetListOfUniverses());
             selectStartUniverse.DataSource = values;
-            selectStartUniverse.SelectedItem = values[1];
+            selectStartUniverse.SelectedItem = values[3];
         }
 
         private void CreateTimer()
@@ -41,14 +55,14 @@ namespace GameOfLifeApp
             _timer.Tick += TickHandler;
         }
 
-        private void LoadUniverse()
+        private void LoadUniverse(bool showDialogs = true)
         {
             var selectedUniverse = selectStartUniverse.SelectedItem.ToString();
             _universe = selectedUniverse switch
             {
                 EmptyUniverse => new Universe(),
-                RandomUniverse => UniverseFactory.GetRandom(),
-                OpenFile => LoadUniverseFromUserSelectedFile(),
+                RandomUniverse => LoadRandomUniverse(showDialogs),
+                OpenFile => LoadUniverseFromUserSelectedFile(showDialogs),
                 _ => UniverseHelper.GetFromFile(selectedUniverse)
             };
             CenterUniverse();
@@ -56,14 +70,32 @@ namespace GameOfLifeApp
             UpdateCounters();
         }
 
-        private Universe LoadUniverseFromUserSelectedFile()
+        private Universe LoadRandomUniverse(bool showDialog)
         {
-            using var openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = @"txt files (*.txt)|*.txt|RLE files (*.rle)|*.rle|All files (*.*)|*.*";
-            openFileDialog.RestoreDirectory = true;
-            return openFileDialog.ShowDialog() == DialogResult.OK 
-                ? UniverseHelper.GetFromFile(openFileDialog.FileName, true) 
+            return ShowRandomSettingsDialog(showDialog)
+                ? UniverseFactory.GetRandom(_randomSettingsForm.Density, _randomSettingsForm.FieldSize)
                 : _universe;
+        }
+
+        private bool ShowRandomSettingsDialog(bool showDialog)
+        {
+            if (!showDialog) return true;
+            _randomSettingsForm.Location = new Point(Location.X + 70, Location.Y + 80);
+            return _randomSettingsForm.ShowDialog(this) == DialogResult.OK;
+        }
+
+        private Universe LoadUniverseFromUserSelectedFile(bool showDialog)
+        {
+            return ShowOpenFileDialog(showDialog)
+                ? UniverseHelper.GetFromFile(_openFileDialog.FileName, true) 
+                : _universe;
+        }
+
+        private bool ShowOpenFileDialog(bool showDialog)
+        {
+            if (!showDialog && !string.IsNullOrEmpty(_openFileDialog.FileName) && File.Exists(_openFileDialog.FileName))
+                return true;
+            return _openFileDialog.ShowDialog(this) == DialogResult.OK;
         }
 
         private int RasterStepSize => _pixelsPerCell + CellSpacing;
@@ -132,7 +164,7 @@ namespace GameOfLifeApp
             else
             {
                 if(_universe.IsEmpty)
-                    ExecActionAndRedraw(LoadUniverse);
+                    ExecActionAndRedraw(() => LoadUniverse());
                 _timer.Start();
                 btnStartStop.Text = @"Stop";
             }
@@ -162,7 +194,7 @@ namespace GameOfLifeApp
 
         private void SelectStartUniverse_SelectedValueChanged(object sender, EventArgs e)
         {
-            ExecActionAndRedraw(LoadUniverse);
+            ExecActionAndRedraw(() => LoadUniverse());
         }
 
         private bool _mouseIsMoving;
@@ -236,6 +268,24 @@ namespace GameOfLifeApp
         private void GameOfLifeForm_KeyUpDown(object sender, KeyEventArgs e)
         {
             _shiftPressed = e.Shift;
+        }
+
+        private void LblReload_Click(object sender, EventArgs e)
+        {
+            if(!_timer.Enabled)
+                ExecActionAndRedraw(() => LoadUniverse(false));
+        }
+
+        private void LblReload_MouseEnter(object sender, EventArgs e)
+        {
+            if (!_timer.Enabled) 
+                lblReload.ForeColor = SystemColors.MenuHighlight;
+        }
+
+        private void LblReload_MouseLeave(object sender, EventArgs e)
+        {
+            if (!_timer.Enabled) 
+                lblReload.ForeColor = SystemColors.HotTrack;
         }
     }
 }

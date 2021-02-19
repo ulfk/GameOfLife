@@ -103,13 +103,13 @@ namespace GameOfLifeLib
             return universe;
         }
 
-        public static Universe GetRandom(int percentFilled = 40, int width = 25, int height = 25)
+        public static Universe GetRandom(int percentFilled = 40, int size = 25)
         {
             var universe = new Universe();
             var rand = new Random();
-            for (var x = 0; x < width; x++)
+            for (var x = 0; x < size; x++)
             {
-                for (var y = 0; y < height; y++)
+                for (var y = 0; y < size; y++)
                 {
                     if (rand.Next(100) <= percentFilled) universe.Add(x, y);
                 }
