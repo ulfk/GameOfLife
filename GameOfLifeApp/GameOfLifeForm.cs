@@ -22,6 +22,7 @@ namespace GameOfLifeApp
         private const int CellSpacing = 1;
         private RandomSettingsForm _randomSettingsForm;
         private OpenFileDialog _openFileDialog;
+        private SaveFileDialog _saveFileDialog;
 
         public GameOfLifeForm()
         {
@@ -33,10 +34,18 @@ namespace GameOfLifeApp
 
         private void CreateDialogs()
         {
+            const string filter = @"Text files (*.txt)|*.txt|RLE files (*.rle)|*.rle|All files (*.*)|*.*";
             _randomSettingsForm = new RandomSettingsForm();
             _openFileDialog = new OpenFileDialog
             {
-                Filter = @"txt files (*.txt)|*.txt|RLE files (*.rle)|*.rle|All files (*.*)|*.*",
+                Filter = filter,
+                FilterIndex = 2,
+                RestoreDirectory = true
+            };
+            _saveFileDialog = new SaveFileDialog
+            {
+                Filter = filter,
+                FilterIndex = 2,
                 RestoreDirectory = true
             };
         }
@@ -156,6 +165,7 @@ namespace GameOfLifeApp
         private void ToggleTimer()
         {
             selectStartUniverse.Enabled = _timer.Enabled;
+            btnSave.Enabled = _timer.Enabled;
             if (_timer.Enabled)
             {
                 _timer.Stop();
@@ -286,6 +296,16 @@ namespace GameOfLifeApp
         {
             if (!_timer.Enabled) 
                 lblReload.ForeColor = SystemColors.HotTrack;
+        }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            if (_saveFileDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                var filename = _saveFileDialog.FileName;
+                var content = filename.EndsWith(".rle") ? _universe.ToRleString() : _universe.ToString();
+                File.WriteAllText(filename, content);
+            }
         }
     }
 }

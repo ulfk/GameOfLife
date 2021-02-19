@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace GameOfLifeLib
 {
@@ -63,5 +64,104 @@ namespace GameOfLifeLib
         public void Add((int, int) cell) => Cells.Add(cell);
 
         public void Remove(int x, int y) => Cells.Remove((x, y));
+
+        public string ToRleString()
+        {
+            if (IsEmpty) return "";
+
+            var result = new StringBuilder();
+            var xMin = Cells.Min(c => c.X);
+            var xMax = Cells.Max(c => c.X);
+            var yMin = Cells.Min(c => c.Y);
+            var yMax = Cells.Max(c => c.Y);
+            
+            var xDim = 1 + xMax - xMin;
+            var yDim = 1 + yMax - yMin;
+            var b = string.Join("", NeighborsToComeAlive.Select(x => x.ToString()));
+            var s = string.Join("", NeighborsToStayAlive.Select(x => x.ToString()));
+            result.AppendLine($"x = {xDim}, y = {yDim}, rule = B{b}/S{s}");
+
+            var line = "";
+            for (var y = yMin; y <= yMax; y++)
+            {
+                var yy = y;
+                var cells = Cells.Where(c => c.Y == yy).Select(c => c.X).OrderBy(x => x);
+                if (!cells.Any())
+                {
+                    line = AppendWithLengthCheck(line, result, xDim, false, true);
+                }
+                else
+                {
+                    var prevX = xMin - 1;
+                    var livingCount = 0;
+                    bool firstCell = true;
+                    foreach (var x in cells)
+                    {
+                        if (x - prevX > 1)
+                        {
+                            var sub = firstCell ? 1 : 0;
+                            if (livingCount > 0)
+                            {
+                                line = AppendWithLengthCheck(line, result, livingCount, true);
+                                livingCount = 0;
+                                sub = 1;
+                            }
+                            line = AppendWithLengthCheck(line, result, x - prevX - sub, false);
+                        }
+
+                        livingCount++;
+                        prevX = x;
+                        firstCell = false;
+                    }
+
+                    if (livingCount > 0)
+                    {
+                        line = AppendWithLengthCheck(line, result, livingCount, true);
+                    }
+
+                    if (prevX < xMax)
+                    {
+                        line = AppendWithLengthCheck(line, result, xMax - prevX, false, true);
+                    }
+                }
+            }
+
+            if (line.Length > 0) result.Append(line);
+
+            result.Append("!");
+
+            return result.ToString();
+        }
+
+        private static string AppendWithLengthCheck(string prevText, StringBuilder result, int count, bool living, bool linebreak = false, int maxLength = 70)
+        {
+            var newText = $"{(count > 1 ? count.ToString() : "")}{(living ? 'o' : 'b')}{(linebreak ? "$" : "")}";
+
+            if (prevText.Length + newText.Length <= maxLength) return prevText + newText;
+
+            result.AppendLine(prevText);
+            return newText;
+        }
+
+        public override string ToString()
+        {
+            var xMin = Cells.Min(c => c.X);
+            var xMax = Cells.Max(c => c.X);
+            var yMin = Cells.Min(c => c.Y);
+            var yMax = Cells.Max(c => c.Y);
+            var result = new StringBuilder();
+
+            for (var y = yMin; y <= yMax; y++)
+            {
+                for (var x = xMin; x <= xMax; x++)
+                {
+                    result.Append(IsCellAlive(x, y) ? "x" : " ");
+                }
+
+                result.AppendLine("");
+            }
+
+            return result.ToString();
+        }
     }
 }

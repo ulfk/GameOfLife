@@ -177,5 +177,46 @@ xx        x   x xx    x x
             var universeFromText = UniverseFactory.GetFromString(plainData);
             universeFromRle.Should().BeEquivalentTo(universeFromText);
         }
+
+        [TestMethod]
+        public void Universe_ToRleString_Succeeds()
+        {
+            var plainData = new[]
+            {
+                "xx  x ",
+                "  xxxx",
+                "    xx",
+                " x x x",
+                "x x x ",
+                "  xx  ",
+                "      ",
+                "   x  "
+            };
+            var universe = UniverseFactory.GetFromString(plainData);
+            var rle = universe.ToRleString();
+            var result = UniverseFactory.GetFromRle(rle);
+            result.Should().BeEquivalentTo(universe);
+        }
+
+
+        [TestMethod]
+        public void Universe_ToString_Succeeds()
+        {
+            var plainData = new[]
+            {
+                "xx  x ",
+                "  xxxx",
+                "    xx",
+                " x x x",
+                "x x x ",
+                "  xx  ",
+                "      ",
+                "   x  "
+            };
+            var universe = UniverseFactory.GetFromString(plainData);
+            var text = universe.ToString();
+            var result = UniverseFactory.GetFromString(text);
+            result.Should().BeEquivalentTo(universe);
+        }
     }
 }
