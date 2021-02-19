@@ -38,8 +38,8 @@ There are predefined files or you can open any other file.
 
 ## ToDo
 
-- add functionality to save universe to file
 - if universe is in stable state stop the timer
+- add history for generations to be able to step back-/forward
 
 ## Bookmarks
 
