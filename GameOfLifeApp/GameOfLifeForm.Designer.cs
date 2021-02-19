@@ -204,11 +204,11 @@ namespace GameOfLifeApp
             // lblReload
             // 
             this.lblReload.AutoSize = true;
-            this.lblReload.Font = new System.Drawing.Font("Arial", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblReload.Font = new System.Drawing.Font("Arial", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblReload.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.lblReload.Location = new System.Drawing.Point(211, 7);
+            this.lblReload.Location = new System.Drawing.Point(213, 15);
             this.lblReload.Name = "lblReload";
-            this.lblReload.Size = new System.Drawing.Size(45, 44);
+            this.lblReload.Size = new System.Drawing.Size(34, 34);
             this.lblReload.TabIndex = 13;
             this.lblReload.Text = "⭯";
             this.lblReload.Click += new System.EventHandler(this.LblReload_Click);
