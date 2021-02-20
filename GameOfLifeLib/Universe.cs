@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -29,11 +30,6 @@ namespace GameOfLifeLib
             Init();
         }
 
-        public Universe(int[] neighborsToComeAlive, int[] neighborsToStayAlive)
-        {
-            Init(neighborsToComeAlive, neighborsToStayAlive);
-        }
-
         public Universe(Universe universe)
         {
             Init(universe.NeighborsToComeAlive, universe.NeighborsToStayAlive);
@@ -46,7 +42,7 @@ namespace GameOfLifeLib
             NeighborsToStayAlive = neighborsToStayAlive ?? new[] {2, 3};
         }
 
-        public (int minX, int maxX, int minY, int maxY) GetDimensions()
+        public (int minX, int maxX, int minY, int maxY) GetMinMaxValues()
         {
             return IsEmpty ? (0, 0, 0, 0) : (Cells.Min(c => c.X), Cells.Max(c => c.X), Cells.Min(c => c.Y), Cells.Max(c => c.Y));
         }
@@ -70,10 +66,7 @@ namespace GameOfLifeLib
             if (IsEmpty) return "";
 
             var result = new StringBuilder();
-            var xMin = Cells.Min(c => c.X);
-            var xMax = Cells.Max(c => c.X);
-            var yMin = Cells.Min(c => c.Y);
-            var yMax = Cells.Max(c => c.Y);
+            var(xMin,xMax,yMin,yMax) = GetMinMaxValues();
             
             var xDim = 1 + xMax - xMin;
             var yDim = 1 + yMax - yMin;
@@ -86,11 +79,7 @@ namespace GameOfLifeLib
             {
                 var yy = y;
                 var cells = Cells.Where(c => c.Y == yy).Select(c => c.X).OrderBy(x => x);
-                if (!cells.Any())
-                {
-                    line = AppendWithLengthCheck(line, result, xDim, false, true);
-                }
-                else
+                if (cells.Any())
                 {
                     var prevX = xMin - 1;
                     var livingCount = 0;
@@ -124,6 +113,10 @@ namespace GameOfLifeLib
                         line = AppendWithLengthCheck(line, result, xMax - prevX, false, true);
                     }
                 }
+                else
+                {
+                    line = AppendWithLengthCheck(line, result, xDim, false, true);
+                }
             }
 
             if (line.Length > 0) result.Append(line);
@@ -145,20 +138,21 @@ namespace GameOfLifeLib
 
         public override string ToString()
         {
-            var xMin = Cells.Min(c => c.X);
-            var xMax = Cells.Max(c => c.X);
-            var yMin = Cells.Min(c => c.Y);
-            var yMax = Cells.Max(c => c.Y);
+            if (IsEmpty) return "";
+
+            var (xMin, xMax, yMin, yMax) = GetMinMaxValues();
             var result = new StringBuilder();
+            var line = new char[xMax - xMin + 1];
 
             for (var y = yMin; y <= yMax; y++)
             {
+                Array.Fill(line, ' ');
                 for (var x = xMin; x <= xMax; x++)
                 {
-                    result.Append(IsCellAlive(x, y) ? "x" : " ");
+                    if (IsCellAlive(x, y)) line[x - xMin] = 'x';
                 }
 
-                result.AppendLine("");
+                result.AppendLine(new string(line));
             }
 
             return result.ToString();
