@@ -51,14 +51,28 @@ namespace GameOfLifeApp
 
         private void BtnOk_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.OK;
-            Close();
+            CloseDialogOk();
         }
 
         private void RandomSettingsForm_Shown(object sender, EventArgs e)
         {
             numDensity.Value = _density;
             numSize.Value = _fieldSize;
+        }
+
+        private void RandomSettingsForm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char) Keys.Return)
+            {
+                e.Handled = true;
+                CloseDialogOk();
+            }
+        }
+
+        private void CloseDialogOk()
+        {
+            DialogResult = DialogResult.OK;
+            Close();
         }
     }
 }

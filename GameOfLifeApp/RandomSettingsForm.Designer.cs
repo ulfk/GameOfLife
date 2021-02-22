@@ -130,6 +130,7 @@ namespace GameOfLifeApp
             this.Controls.Add(this.label1);
             this.Controls.Add(this.numDensity);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "RandomSettingsForm";
@@ -138,6 +139,7 @@ namespace GameOfLifeApp
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Settings";
             this.Shown += new System.EventHandler(this.RandomSettingsForm_Shown);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RandomSettingsForm_KeyPress);
             ((System.ComponentModel.ISupportInitialize)(this.numDensity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSize)).EndInit();
             this.ResumeLayout(false);
