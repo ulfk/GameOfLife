@@ -62,6 +62,7 @@ namespace GameOfLifeLib
                     continue;
                 }
 
+                // normal line with encoded data
                 var matches = Regex.Matches(line, @"(\d*[bo!\$])");
                 foreach (Match match in matches)
                 {

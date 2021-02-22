@@ -114,7 +114,7 @@ namespace GameOfLifeApp
 
         private void CenterUniverse()
         {
-            var (minX, maxX, minY, maxY) = _universe.GetDimensions();
+            var (minX, maxX, minY, maxY) = _universe.GetMinMaxValues();
             _offsetX = GetCenter(pictureBox.Size.Width, minX, maxX);
             _offsetY = GetCenter(pictureBox.Size.Height, minY, maxY);
         }

@@ -198,6 +198,13 @@ xx        x   x xx    x x
             result.Should().BeEquivalentTo(universe);
         }
 
+        [TestMethod]
+        public void Universe_ToRleStringWithEmptyUniverse_Succeeds()
+        {
+            var universe =new Universe();
+            var rle = universe.ToRleString();
+            rle.Should().Be("");
+        }
 
         [TestMethod]
         public void Universe_ToString_Succeeds()
@@ -217,6 +224,15 @@ xx        x   x xx    x x
             var text = universe.ToString();
             var result = UniverseFactory.GetFromString(text);
             result.Should().BeEquivalentTo(universe);
+        }
+
+
+        [TestMethod]
+        public void Universe_ToStringWithEmptyUniverse_Succeeds()
+        {
+            var universe = new Universe();
+            var text = universe.ToString();
+            text.Should().Be("");
         }
     }
 }
