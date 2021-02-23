@@ -68,7 +68,7 @@ namespace GameOfLifeTests
         }
 
         [TestMethod]
-        public void GameOfLife_With_Succeeds()
+        public void GameOfLife_WithStableConfiguration_Succeeds()
         {
             var lines = new[]
             {
@@ -84,6 +84,25 @@ namespace GameOfLifeTests
 
             var result = GameOfLife.CalculateStep(startUniverse);
             result.Cells.Should().BeEquivalentTo(startUniverse.Cells);
+        }
+
+        [TestMethod]
+        public void GameOfLife_WithDyingConfiguration_Succeeds()
+        {
+            var lines = new[]
+            {
+                "x        x",
+                "         x",
+                "   x  ",
+                "   x         x ",
+                "             x",
+                "x",
+                "x"
+            };
+            var startUniverse = UniverseFactory.GetFromMatrixString(lines);
+
+            var result = GameOfLife.CalculateStep(startUniverse);
+            result.IsEmpty.Should().BeTrue();
         }
     }
 }
