@@ -31,7 +31,7 @@ namespace GameOfLifeApp
         public static Universe GetFromFile(string filenamePart, bool isFullFilename = false)
         {
             var (lines,isRle) = GetFileContent(filenamePart, isFullFilename);
-            return isRle ? UniverseFactory.GetFromRle(lines) : UniverseFactory.GetFromString(lines);
+            return isRle ? UniverseFactory.GetFromRleString(lines) : UniverseFactory.GetFromMatrixString(lines);
         }
 
         private static string BuildFilename(string part, bool isRle = false) => $"Universe_{part}.{(isRle ? "rle" : "txt")}";

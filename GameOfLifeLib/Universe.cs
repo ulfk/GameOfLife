@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace GameOfLifeLib
 {
@@ -33,6 +34,12 @@ namespace GameOfLifeLib
         public Universe(Universe universe)
         {
             Init(universe.NeighborsToComeAlive, universe.NeighborsToStayAlive);
+        }
+
+        public Universe(string text)
+        {
+            Init();
+            FromString(text);
         }
 
         private void Init(int[] neighborsToComeAlive = null, int[] neighborsToStayAlive = null)
@@ -78,12 +85,12 @@ namespace GameOfLifeLib
             for (var y = yMin; y <= yMax; y++)
             {
                 var yy = y;
-                var cells = Cells.Where(c => c.Y == yy).Select(c => c.X).OrderBy(x => x);
+                var cells = Cells.Where(c => c.Y == yy).Select(c => c.X).OrderBy(x => x).ToList();
                 if (cells.Any())
                 {
                     var prevX = xMin - 1;
                     var livingCount = 0;
-                    bool firstCell = true;
+                    var firstCell = true;
                     foreach (var x in cells)
                     {
                         if (x - prevX > 1)
@@ -126,7 +133,7 @@ namespace GameOfLifeLib
             return result.ToString();
         }
 
-        private static string AppendWithLengthCheck(string prevText, StringBuilder result, int count, bool living, bool linebreak = false, int maxLength = 70)
+        private static string AppendWithLengthCheck(string prevText, StringBuilder result, int count, bool living, bool linebreak = false, int maxLength = 120)
         {
             var newText = $"{(count > 1 ? count.ToString() : "")}{(living ? 'o' : 'b')}{(linebreak ? "$" : "")}";
 
@@ -136,7 +143,7 @@ namespace GameOfLifeLib
             return newText;
         }
 
-        public override string ToString()
+        public string ToMatrixString()
         {
             if (IsEmpty) return "";
 
@@ -156,6 +163,22 @@ namespace GameOfLifeLib
             }
 
             return result.ToString();
+        }
+
+        public override string ToString()
+        {
+            return string.Join(";",Cells.Select(c => $"{c.X},{c.Y}"));
+        }
+
+        public void FromString(string values)
+        {
+            Cells.Clear();
+            var matches = Regex.Matches(values, @"((-?\d+)(?:,)(-?\d+))(?:;?)");
+            var cells = matches.Select(m => (int.Parse(m.Groups[2].Value), int.Parse(m.Groups[3].Value)));
+            foreach (var cell in cells)
+            {
+                Cells.Add(cell);
+            }
         }
     }
 }

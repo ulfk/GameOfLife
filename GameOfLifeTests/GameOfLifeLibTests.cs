@@ -12,13 +12,13 @@ namespace GameOfLifeTests
         [TestMethod]
         public void GameOfLife_WithFlipper_Succeeds()
         {
-            var startUniverse = UniverseFactory.GetFromString(new[]
+            var startUniverse = UniverseFactory.GetFromMatrixString(new[]
             {
                 " x ",
                 " x ",
                 " x "
             });
-            var expectedUniverse = UniverseFactory.GetFromString(new[]
+            var expectedUniverse = UniverseFactory.GetFromMatrixString(new[]
             {
                 "   ",
                 "xxx",
@@ -32,12 +32,12 @@ namespace GameOfLifeTests
         [TestMethod]
         public void GameOfLife_WithExpectedNewborn_Succeeds()
         {
-            var startUniverse = UniverseFactory.GetFromString(new[]
+            var startUniverse = UniverseFactory.GetFromMatrixString(new[]
             {
                 " x ",
                 " xx"
             });
-            var expectedUniverse = UniverseFactory.GetFromString(new[]
+            var expectedUniverse = UniverseFactory.GetFromMatrixString(new[]
             {
                 " xx",
                 " xx"
@@ -50,13 +50,13 @@ namespace GameOfLifeTests
         [TestMethod]
         public void GameOfLife_WithOvercrowdedDeath_Succeeds()
         {
-            var startUniverse = UniverseFactory.GetFromString(new[]
+            var startUniverse = UniverseFactory.GetFromMatrixString(new[]
             {
                 " x ",
                 "xxx",
                 " x "
             });
-            var expectedUniverse = UniverseFactory.GetFromString(new[]
+            var expectedUniverse = UniverseFactory.GetFromMatrixString(new[]
             {
                 "xxx",
                 "x x",
@@ -80,7 +80,7 @@ namespace GameOfLifeTests
                 "xx",
                 "xx"
             };
-            var startUniverse = UniverseFactory.GetFromString(lines);
+            var startUniverse = UniverseFactory.GetFromMatrixString(lines);
 
             var result = GameOfLife.CalculateStep(startUniverse);
             result.Cells.Should().BeEquivalentTo(startUniverse.Cells);

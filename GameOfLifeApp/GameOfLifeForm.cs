@@ -303,7 +303,7 @@ namespace GameOfLifeApp
             if (_saveFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 var filename = _saveFileDialog.FileName;
-                var content = filename.EndsWith(".rle") ? _universe.ToRleString() : _universe.ToString();
+                var content = filename.EndsWith(".rle") ? _universe.ToRleString() : _universe.ToMatrixString();
                 File.WriteAllText(filename, content);
             }
         }

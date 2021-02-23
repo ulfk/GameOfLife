@@ -22,7 +22,7 @@ namespace GameOfLifeTests
                 "       x"
             };
             var text = string.Join('\n', lines);
-            var universe = UniverseFactory.GetFromString(text);
+            var universe = UniverseFactory.GetFromMatrixString(text);
             for (var y = 0; y < lines.Length; y++)
             {
                 var line = lines[y];
@@ -46,7 +46,7 @@ namespace GameOfLifeTests
                 "        ",
                 "       x"
             };
-            var universe = UniverseFactory.GetFromString(lines);
+            var universe = UniverseFactory.GetFromMatrixString(lines);
             for (var y = 0; y < lines.Length; y++)
             {
                 var line = lines[y];
@@ -103,7 +103,7 @@ namespace GameOfLifeTests
         [ExpectedException(typeof(InvalidDataException))]
         public void Universe_GetFromRleWithInvalidValue_Throws()
         {
-            var _ = UniverseFactory.GetFromRle(new[]
+            var _ = UniverseFactory.GetFromRleString(new[]
             {
                 "#C Hello World",
                 "#N Name",
@@ -115,7 +115,7 @@ namespace GameOfLifeTests
         [TestMethod]
         public void Universe_GetFromRle_Succeeds()
         {
-            var universe = UniverseFactory.GetFromRle(new []
+            var universe = UniverseFactory.GetFromRleString(new []
             {
                 "#C Hello World", 
                 "#N Name",
@@ -151,7 +151,7 @@ o2b5ob2o3bob2obo$b2obob2o2bo3b2obo4bob2o5bo$obo3b2ob2obobo2bo2b4o2b5o$
 ob2obo2bob2o$4b2obob2obo4b3o2b2obobo$b2o2bob4obobo2bo2b4obo3bobo$2o2b
 5obo2bobo3b2o3bobo2b2o$2bob2o3bob6obo2bo3bo4bo!";
 
-            var universe = UniverseFactory.GetFromRle(data);
+            var universe = UniverseFactory.GetFromRleString(data);
             universe.Cells.Count.Should().Be(496);
             universe.IsCellAlive(1, 0).Should().BeTrue();
         }
@@ -173,8 +173,8 @@ xx        x   x xx    x x
            x   x                    
             xx                      ";
 
-            var universeFromRle = UniverseFactory.GetFromRle(rleData);
-            var universeFromText = UniverseFactory.GetFromString(plainData);
+            var universeFromRle = UniverseFactory.GetFromRleString(rleData);
+            var universeFromText = UniverseFactory.GetFromMatrixString(plainData);
             universeFromRle.Should().BeEquivalentTo(universeFromText);
         }
 
@@ -192,9 +192,9 @@ xx        x   x xx    x x
                 "      ",
                 "   x  "
             };
-            var universe = UniverseFactory.GetFromString(plainData);
+            var universe = UniverseFactory.GetFromMatrixString(plainData);
             var rle = universe.ToRleString();
-            var result = UniverseFactory.GetFromRle(rle);
+            var result = UniverseFactory.GetFromRleString(rle);
             result.Should().BeEquivalentTo(universe);
         }
 
@@ -207,7 +207,7 @@ xx        x   x xx    x x
         }
 
         [TestMethod]
-        public void Universe_ToString_Succeeds()
+        public void Universe_ToMatrixString_Succeeds()
         {
             var plainData = new[]
             {
@@ -220,19 +220,39 @@ xx        x   x xx    x x
                 "      ",
                 "   x  "
             };
-            var universe = UniverseFactory.GetFromString(plainData);
-            var text = universe.ToString();
-            var result = UniverseFactory.GetFromString(text);
+            var universe = UniverseFactory.GetFromMatrixString(plainData);
+            var text = universe.ToMatrixString();
+            var result = UniverseFactory.GetFromMatrixString(text);
             result.Should().BeEquivalentTo(universe);
         }
 
 
         [TestMethod]
-        public void Universe_ToStringWithEmptyUniverse_Succeeds()
+        public void Universe_ToMatrixStringWithEmptyUniverse_Succeeds()
         {
             var universe = new Universe();
-            var text = universe.ToString();
+            var text = universe.ToMatrixString();
             text.Should().Be("");
+        }
+
+        [TestMethod]
+        public void Universe_ToStringFormString_Succeeds()
+        {
+            var plainData = new[]
+            {
+                "xx  x ",
+                "  xxxx",
+                "    xx",
+                " x x x",
+                "x x x ",
+                "  xx  ",
+                "      ",
+                "   x  "
+            };
+            var universe = UniverseFactory.GetFromMatrixString(plainData);
+            var text = universe.ToString();
+            var result = new Universe(text);
+            result.Should().BeEquivalentTo(universe);
         }
     }
 }

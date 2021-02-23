@@ -6,13 +6,13 @@ namespace GameOfLifeLib
 {
     public static class UniverseFactory
     {
-        public static Universe GetFromString(string text)
+        public static Universe GetFromMatrixString(string text)
         {
             var lines = text.Replace("\r", "").Split('\n');
-            return GetFromString(lines);
+            return GetFromMatrixString(lines);
         }
 
-        public static Universe GetFromString(string[] lines)
+        public static Universe GetFromMatrixString(string[] lines)
         {
             var universe = new Universe();
             for (var y = 0; y < lines.Length; y++)
@@ -28,15 +28,15 @@ namespace GameOfLifeLib
             return universe;
         }
 
-        public static Universe GetFromRle(string text)
+        public static Universe GetFromRleString(string text)
         {
             var lines = text.Replace("\r", "").Split('\n');
-            return GetFromRle(lines);
+            return GetFromRleString(lines);
         }
 
         // https://www.conwaylife.com/wiki/Run_Length_Encoded
         // https://codereview.stackexchange.com/questions/149068/parse-run-length-encoded-file-for-cellular-automaton-data
-        public static Universe GetFromRle(string[] lines)
+        public static Universe GetFromRleString(string[] lines)
         {
             var universe = new Universe();
             var y = 0;
