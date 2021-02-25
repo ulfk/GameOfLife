@@ -23,13 +23,15 @@ namespace GameOfLifeApp
         private RandomSettingsForm _randomSettingsForm;
         private OpenFileDialog _openFileDialog;
         private SaveFileDialog _saveFileDialog;
+        private readonly List<byte[]> _history = new List<byte[]>();
+        private int _historyOffset;
 
         public GameOfLifeForm()
         {
             InitializeComponent();
             CreateDialogs();
-            InitUniverseSelection();
             CreateTimer();
+            InitUniverseSelection();
         }
 
         private void CreateDialogs()
@@ -74,9 +76,18 @@ namespace GameOfLifeApp
                 OpenFile => LoadUniverseFromUserSelectedFile(showDialogs),
                 _ => UniverseHelper.GetFromFile(selectedUniverse)
             };
+            SaveToHistory();
             CenterUniverse();
             _generations = 0;
             UpdateCounters();
+        }
+
+        private void SaveToHistory()
+        {
+            if (_universe == null) return;
+            _history.Add(_universe.Zip());
+            _historyOffset = _history.Count;
+            UpdateControls();
         }
 
         private Universe LoadRandomUniverse(bool showDialog)
@@ -128,6 +139,7 @@ namespace GameOfLifeApp
         {
             _universe = GameOfLife.CalculateStep(_universe);
             _generations++;
+            SaveToHistory();
             UpdateCounters();
             if (_universe.IsEmpty)
                 ToggleTimer();
@@ -164,8 +176,6 @@ namespace GameOfLifeApp
 
         private void ToggleTimer()
         {
-            selectStartUniverse.Enabled = _timer.Enabled;
-            btnSave.Enabled = _timer.Enabled;
             if (_timer.Enabled)
             {
                 _timer.Stop();
@@ -178,10 +188,22 @@ namespace GameOfLifeApp
                 _timer.Start();
                 btnStartStop.Text = @"Stop";
             }
+
+            UpdateControls();
+        }
+
+        private void UpdateControls()
+        {
+            selectStartUniverse.Enabled = !_timer.Enabled;
+            btnSave.Enabled = !_timer.Enabled;
+            btnHistoryBack.Enabled = !_timer.Enabled && _historyOffset > 1;
+            btnHistoryForward.Enabled = !_timer.Enabled && _historyOffset < _history.Count;
         }
 
         private void BtnStartStop_Click(object sender, EventArgs e)
         {
+            if(_historyOffset < _history.Count)
+                SaveToHistory();
             ToggleTimer();
         }
         
@@ -307,5 +329,25 @@ namespace GameOfLifeApp
                 File.WriteAllText(filename, content);
             }
         }
+
+        private void btnHistoryBack_Click(object sender, EventArgs e)
+        {
+            HistoryAction(_historyOffset > 1, -1);
+        }
+
+        private void btnHistoryForward_Click(object sender, EventArgs e)
+        {
+            HistoryAction(_historyOffset < _history.Count, 1);
+        }
+
+        private void HistoryAction(bool executeAction, int offsetChange)
+        {
+            if (!executeAction) return;
+            _historyOffset += offsetChange;
+            LoadHistoryByOffset();
+            UpdateControls();
+        }
+
+        private void LoadHistoryByOffset() => ExecActionAndRedraw(() => _universe = _history[_historyOffset - 1].UnzipToUniverse());
     }
 }

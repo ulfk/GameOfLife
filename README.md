@@ -27,6 +27,7 @@ The UI has the following features (hint: 'universe' is the configuration of cell
 - change display-size of cells
 - move the displyed universe by dragging it with your mouse
 - change cells by holding SHIFT and left-click with your mouse
+- history of universes including every generation (possibility to navigate back and forth)
 
 The program supports these data files:
 
@@ -42,8 +43,7 @@ There are predefined files or you can open any other file.
 ## ToDo
 
 - if universe is in stable state stop the timer
-- add history for generations to be able to step back-/forward
-- replace start/save/reload button texts with icons
+- replace start/save/reload/history button texts with icons
 
 ## Bookmarks
 

@@ -254,5 +254,34 @@ xx        x   x xx    x x
             var result = new Universe(text);
             result.Should().BeEquivalentTo(universe);
         }
+        
+        [TestMethod]
+        public void Universe_ZipUnzipUniverse_Succeeds()
+        {
+            var plainData = new[]
+            {
+                "xx  x ",
+                "  xxxx",
+                "    xx",
+                " x x x",
+                "x x x ",
+                "  xx  ",
+                "      ",
+                "   x  "
+            };
+            var universe = UniverseFactory.GetFromMatrixString(plainData);
+            var zipped = universe.Zip();
+            var result = zipped.UnzipToUniverse();
+            result.Should().BeEquivalentTo(universe);
+        }
+
+        [TestMethod]
+        public void Universe_ZipUnzipEmptyUniverse_Succeeds()
+        {
+            var universe = new Universe();
+            var zipped = universe.Zip();
+            var result = zipped.UnzipToUniverse();
+            result.Should().BeEquivalentTo(universe);
+        }
     }
 }

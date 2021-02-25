@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.IO.Compression;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace GameOfLifeLib
@@ -117,6 +119,32 @@ namespace GameOfLifeLib
             }
 
             return universe;
+        }
+
+        public static byte[] Zip(this Universe universe)
+        {
+            var bytes = Encoding.UTF8.GetBytes(universe.ToString());
+
+            using var msi = new MemoryStream(bytes);
+            using var mso = new MemoryStream();
+            using (var gs = new GZipStream(mso, CompressionMode.Compress))
+            {
+                msi.CopyTo(gs);
+            }
+
+            return mso.ToArray();
+        }
+
+        public static Universe UnzipToUniverse(this byte[] bytes)
+        {
+            using var msi = new MemoryStream(bytes);
+            using var mso = new MemoryStream();
+            using (var gs = new GZipStream(msi, CompressionMode.Decompress))
+            {
+                gs.CopyTo(mso);
+            }
+
+            return new Universe(Encoding.UTF8.GetString(mso.ToArray()));
         }
     }
 }

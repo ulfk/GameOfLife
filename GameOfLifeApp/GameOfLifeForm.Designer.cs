@@ -43,6 +43,9 @@ namespace GameOfLifeApp
             this.lblGenerations = new System.Windows.Forms.Label();
             this.lblReload = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.btnHistoryBack = new System.Windows.Forms.Button();
+            this.btnHistoryForward = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.inpFrequency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numPixelSize)).BeginInit();
@@ -57,7 +60,7 @@ namespace GameOfLifeApp
             this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox.Location = new System.Drawing.Point(12, 59);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(996, 576);
+            this.pictureBox.Size = new System.Drawing.Size(975, 576);
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
             this.pictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.PictureBox_Paint);
@@ -68,7 +71,7 @@ namespace GameOfLifeApp
             // 
             // btnStartStop
             // 
-            this.btnStartStop.Location = new System.Drawing.Point(382, 28);
+            this.btnStartStop.Location = new System.Drawing.Point(454, 28);
             this.btnStartStop.Name = "btnStartStop";
             this.btnStartStop.Size = new System.Drawing.Size(61, 23);
             this.btnStartStop.TabIndex = 1;
@@ -83,7 +86,7 @@ namespace GameOfLifeApp
             0,
             0,
             0});
-            this.inpFrequency.Location = new System.Drawing.Point(213, 30);
+            this.inpFrequency.Location = new System.Drawing.Point(285, 30);
             this.inpFrequency.Maximum = new decimal(new int[] {
             3000,
             0,
@@ -108,7 +111,7 @@ namespace GameOfLifeApp
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(213, 12);
+            this.label1.Location = new System.Drawing.Point(285, 12);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(66, 15);
             this.label1.TabIndex = 4;
@@ -135,7 +138,7 @@ namespace GameOfLifeApp
             // 
             // numPixelSize
             // 
-            this.numPixelSize.Location = new System.Drawing.Point(307, 30);
+            this.numPixelSize.Location = new System.Drawing.Point(379, 30);
             this.numPixelSize.Maximum = new decimal(new int[] {
             25,
             0,
@@ -160,7 +163,7 @@ namespace GameOfLifeApp
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(307, 12);
+            this.label3.Location = new System.Drawing.Point(379, 12);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(51, 15);
             this.label3.TabIndex = 8;
@@ -169,7 +172,7 @@ namespace GameOfLifeApp
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(478, 36);
+            this.label4.Location = new System.Drawing.Point(550, 36);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(71, 15);
             this.label4.TabIndex = 9;
@@ -177,7 +180,7 @@ namespace GameOfLifeApp
             // 
             // lblLivingCells
             // 
-            this.lblLivingCells.Location = new System.Drawing.Point(557, 36);
+            this.lblLivingCells.Location = new System.Drawing.Point(629, 36);
             this.lblLivingCells.Name = "lblLivingCells";
             this.lblLivingCells.Size = new System.Drawing.Size(45, 15);
             this.lblLivingCells.TabIndex = 10;
@@ -187,7 +190,7 @@ namespace GameOfLifeApp
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(478, 21);
+            this.label5.Location = new System.Drawing.Point(550, 21);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(73, 15);
             this.label5.TabIndex = 11;
@@ -195,7 +198,7 @@ namespace GameOfLifeApp
             // 
             // lblGenerations
             // 
-            this.lblGenerations.Location = new System.Drawing.Point(557, 21);
+            this.lblGenerations.Location = new System.Drawing.Point(629, 21);
             this.lblGenerations.Name = "lblGenerations";
             this.lblGenerations.Size = new System.Drawing.Size(45, 15);
             this.lblGenerations.TabIndex = 12;
@@ -218,7 +221,7 @@ namespace GameOfLifeApp
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(655, 28);
+            this.btnSave.Location = new System.Drawing.Point(727, 28);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(52, 23);
             this.btnSave.TabIndex = 14;
@@ -226,11 +229,43 @@ namespace GameOfLifeApp
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(210, 12);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(45, 15);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "History";
+            // 
+            // btnHistoryBack
+            // 
+            this.btnHistoryBack.Location = new System.Drawing.Point(210, 30);
+            this.btnHistoryBack.Name = "btnHistoryBack";
+            this.btnHistoryBack.Size = new System.Drawing.Size(22, 23);
+            this.btnHistoryBack.TabIndex = 16;
+            this.btnHistoryBack.Text = "<";
+            this.btnHistoryBack.UseVisualStyleBackColor = true;
+            this.btnHistoryBack.Click += new System.EventHandler(this.btnHistoryBack_Click);
+            // 
+            // btnHistoryForward
+            // 
+            this.btnHistoryForward.Location = new System.Drawing.Point(238, 30);
+            this.btnHistoryForward.Name = "btnHistoryForward";
+            this.btnHistoryForward.Size = new System.Drawing.Size(23, 23);
+            this.btnHistoryForward.TabIndex = 17;
+            this.btnHistoryForward.Text = ">";
+            this.btnHistoryForward.UseVisualStyleBackColor = true;
+            this.btnHistoryForward.Click += new System.EventHandler(this.btnHistoryForward_Click);
+            // 
             // GameOfLifeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1020, 647);
+            this.ClientSize = new System.Drawing.Size(999, 647);
+            this.Controls.Add(this.btnHistoryForward);
+            this.Controls.Add(this.btnHistoryBack);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.lblReload);
             this.Controls.Add(this.lblGenerations);
@@ -275,6 +310,9 @@ namespace GameOfLifeApp
         private System.Windows.Forms.Label lblGenerations;
         private System.Windows.Forms.Label lblReload;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button btnHistoryBack;
+        private System.Windows.Forms.Button btnHistoryForward;
     }
 }
 
