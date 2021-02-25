@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -28,6 +29,103 @@ namespace GameOfLifeLib
             }
 
             return universe;
+        }
+
+        public static string ToRleString(this Universe universe)
+        {
+            if (universe.IsEmpty) return "";
+
+            var result = new StringBuilder();
+            var (xMin, xMax, yMin, yMax) = universe.GetMinMaxValues();
+
+            var xDim = 1 + xMax - xMin;
+            var yDim = 1 + yMax - yMin;
+            var b = string.Join("", universe.NeighborsToComeAlive.Select(x => x.ToString()));
+            var s = string.Join("", universe.NeighborsToStayAlive.Select(x => x.ToString()));
+            result.AppendLine($"x = {xDim}, y = {yDim}, rule = B{b}/S{s}");
+
+            var line = "";
+            for (var y = yMin; y <= yMax; y++)
+            {
+                var yy = y;
+                var cells = universe.Cells.Where(c => c.Y == yy).Select(c => c.X).OrderBy(x => x).ToList();
+                if (cells.Any())
+                {
+                    var prevX = xMin - 1;
+                    var livingCount = 0;
+                    var firstCell = true;
+                    foreach (var x in cells)
+                    {
+                        if (x - prevX > 1)
+                        {
+                            var sub = firstCell ? 1 : 0;
+                            if (livingCount > 0)
+                            {
+                                line = AppendWithLengthCheck(line, result, livingCount, true);
+                                livingCount = 0;
+                                sub = 1;
+                            }
+                            line = AppendWithLengthCheck(line, result, x - prevX - sub, false);
+                        }
+
+                        livingCount++;
+                        prevX = x;
+                        firstCell = false;
+                    }
+
+                    if (livingCount > 0)
+                    {
+                        line = AppendWithLengthCheck(line, result, livingCount, true);
+                    }
+
+                    if (prevX < xMax)
+                    {
+                        line = AppendWithLengthCheck(line, result, xMax - prevX, false, true);
+                    }
+                }
+                else
+                {
+                    line = AppendWithLengthCheck(line, result, xDim, false, true);
+                }
+            }
+
+            if (line.Length > 0) result.Append(line);
+
+            result.Append("!");
+
+            return result.ToString();
+        }
+
+        private static string AppendWithLengthCheck(string prevText, StringBuilder result, int count, bool living, bool linebreak = false, int maxLength = 120)
+        {
+            var newText = $"{(count > 1 ? count.ToString() : "")}{(living ? 'o' : 'b')}{(linebreak ? "$" : "")}";
+
+            if (prevText.Length + newText.Length <= maxLength) return prevText + newText;
+
+            result.AppendLine(prevText);
+            return newText;
+        }
+
+        public static string ToMatrixString(this Universe universe)
+        {
+            if (universe.IsEmpty) return "";
+
+            var (xMin, xMax, yMin, yMax) = universe.GetMinMaxValues();
+            var result = new StringBuilder();
+            var line = new char[xMax - xMin + 1];
+
+            for (var y = yMin; y <= yMax; y++)
+            {
+                Array.Fill(line, ' ');
+                for (var x = xMin; x <= xMax; x++)
+                {
+                    if (universe.IsCellAlive(x, y)) line[x - xMin] = 'x';
+                }
+
+                result.AppendLine(new string(line));
+            }
+
+            return result.ToString();
         }
 
         public static Universe GetFromRleString(string text)
@@ -120,7 +218,7 @@ namespace GameOfLifeLib
 
             return universe;
         }
-
+        
         public static byte[] Zip(this Universe universe)
         {
             var bytes = Encoding.UTF8.GetBytes(universe.ToString());
