@@ -4,6 +4,10 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
+    <Authors>Ulf Kühnle</Authors>
+    <Company>private</Company>
+    <PackageProjectUrl>https://github.com/ulfk/GameOfLife</PackageProjectUrl>
+    <RepositoryUrl></RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
