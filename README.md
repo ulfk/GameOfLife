@@ -1,4 +1,5 @@
 # Coneways Game of Life
+![.NET Core Desktop](https://github.com//ulfk/GameOfLife/actions/workflows/dotnet-build-and-test.yml/badge.svg)
 
 ## Why?
 
