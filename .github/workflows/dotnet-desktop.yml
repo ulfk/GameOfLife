@@ -75,4 +75,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with: 
         name: assets-for-download
-        path: GameOfLife\GameOfLifeApp\bin\Release\netcoreapp3.1\
+        path: D:\a\GameOfLife\GameOfLife\GameOfLifeApp\bin\Release\netcoreapp3.1\
