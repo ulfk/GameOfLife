@@ -26,8 +26,8 @@ The UI has the following features (hint: 'universe' is the configuration of cell
 - display current number of generations and number of living cells
 - change speed of generations
 - change display-size of cells
-- move the displyed universe by dragging it with your mouse
-- change cells by holding SHIFT and left-click with your mouse
+- move the displayed universe by dragging it with the mouse
+- change cells by holding SHIFT and mouse-left-click
 - history of universes including every generation (possibility to navigate back and forth)
 
 The program supports these data files:
