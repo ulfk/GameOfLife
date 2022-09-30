@@ -15,7 +15,7 @@ namespace GameOfLifeLib
             foreach (var cell in universe.Cells)
             {
                 CalculateNewCellState(universe, cell, true, nextGen);
-                CollectEmptyNeighbors(universe, cell.X, cell.Y, empties);
+                CollectEmptyNeighbors(universe, cell, empties);
             }
 
             // process every dead neighbor of any living cell
@@ -41,9 +41,9 @@ namespace GameOfLifeLib
             (cellX - 1, cellY + 1), (cellX, cellY + 1), (cellX + 1, cellY + 1)
         };
 
-        private static void CollectEmptyNeighbors(Universe universe, int cellX, int cellY, Universe empties)
+        private static void CollectEmptyNeighbors(Universe universe, (int X, int Y) cell, Universe empties)
         {
-            foreach (var (x, y) in SurroundingCells(cellX, cellY))
+            foreach (var (x, y) in SurroundingCells(cell.X, cell.Y))
             {
                 if(!universe.IsCellAlive(x, y) && !empties.Contains(x, y))
                     empties.Add(x, y);

@@ -8,7 +8,13 @@
     <Company>private</Company>
     <PackageProjectUrl>https://github.com/ulfk/GameOfLife</PackageProjectUrl>
     <RepositoryUrl></RepositoryUrl>
+    <PackageIcon>Game_of_Life.png</PackageIcon>
+    <ApplicationIcon>Game_of_Life-2.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Game_of_Life-2.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\GameOfLifeLib\GameOfLifeLib.csproj" />

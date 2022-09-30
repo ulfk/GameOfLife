@@ -19,7 +19,7 @@ namespace GameOfLifeApp
         private const string RandomUniverse = "** Random **";
         private const string EmptyUniverse = "** Empty **";
         private const string OpenFile = "** Open File... **";
-        private const int CellSpacing = 1;
+        private int _cellSpacing = 1;
         private RandomSettingsForm _randomSettingsForm;
         private OpenFileDialog _openFileDialog;
         private SaveFileDialog _saveFileDialog;
@@ -118,7 +118,7 @@ namespace GameOfLifeApp
             return _openFileDialog.ShowDialog(this) == DialogResult.OK;
         }
 
-        private int RasterStepSize => _pixelsPerCell + CellSpacing;
+        private int RasterStepSize => _pixelsPerCell + _cellSpacing;
 
         private int GetCenter(int overall, int min, int max)
             => (overall - (max - min + 1) * RasterStepSize) / 2 - min;
@@ -269,6 +269,10 @@ namespace GameOfLifeApp
             ExecActionAndRedraw(() =>
             {
                 _pixelsPerCell = (int) numPixelSize.Value;
+                // adjust space between cells depending on cell-size
+                if (_pixelsPerCell < 10) _cellSpacing = 1;
+                else if (_pixelsPerCell < 20) _cellSpacing = 2;
+                else if (_pixelsPerCell < 35) _cellSpacing = 3;
                 CenterUniverse();
             });
         }
