@@ -1,5 +1,5 @@
 # Coneways Game of Life
-[![.NET Core Desktop](https://github.com/ulfk/GameOfLife/actions/workflows/dotnet-desktop.yml/badge.svg)](https://github.com/ulfk/GameOfLife/actions/workflows/dotnet-desktop.yml)
+[![.NET](https://github.com/ulfk/GameOfLife/actions/workflows/dotnet-desktop.yml/badge.svg)](https://github.com/ulfk/GameOfLife/actions/workflows/dotnet-desktop.yml)
 
 ## Why?
 
