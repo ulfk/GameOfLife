@@ -3,7 +3,7 @@
 
 ## Why?
 
-Hard to believe that I never implemented Coneways Game of Life before. But eventually I stumbled over this exercise and thought "it is time for it". I've done it in C# .NET Core.
+Hard to believe that I never implemented Coneways Game of Life before. But eventually I stumbled over this exercise and thought "it is time for it". I've done it in C#.
 
 ## How?
 
